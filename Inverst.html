@@ -10,8 +10,8 @@
         :root {
             --primary: #2D3748;
             --secondary: #4A5568;
-            --accent: #e37dec;
-            --light-bg: #ddc6df;
+            --accent: #DD6B20;
+            --light-bg: #F7FAFC;
             --card-bg: #FFFFFF;
             --success: #38A169;
             --warning: #DD6B20;
@@ -34,8 +34,130 @@
         body {
             background-color: var(--light-bg);
             color: var(--text-dark);
-            display: flex;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.5s ease;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 1400px;
+            height: 95vh;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            display: flex;
+            transition: all 0.4s ease;
+        }
+        
+        /* Login Page */
+        .login-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #4A69BD, #6A89CC);
+        }
+        
+        .login-box {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .login-logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .login-logo i {
+            color: var(--accent);
+            font-size: 42px;
+        }
+        
+        .login-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .login-subtitle {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(221, 107, 32, 0.2);
+            outline: none;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: #C05621;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(221, 107, 32, 0.3);
+        }
+        
+        .login-footer {
+            margin-top: 25px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Main App */
+        .app-main {
+            display: none;
+            width: 100%;
+            height: 100%;
         }
         
         /* Sidebar */
@@ -44,6 +166,8 @@
             background: var(--primary);
             color: white;
             padding: 20px 0;
+            display: flex;
+            flex-direction: column;
             transition: all 0.3s;
         }
         
@@ -68,6 +192,7 @@
         
         .nav-links {
             padding: 0 10px;
+            flex: 1;
         }
         
         .nav-item {
@@ -90,6 +215,53 @@
             margin-right: 10px;
             width: 24px;
             text-align: center;
+        }
+        
+        .user-profile {
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--pastel-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .logout-btn {
+            color: rgba(255,255,255,0.7);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            color: white;
         }
         
         /* Main Content */
@@ -129,29 +301,21 @@
             color: var(--text-dark);
         }
         
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .current-date {
+            font-weight: 500;
+            color: var(--secondary);
         }
         
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--pastel-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        /* Dashboard Content */
-        .dashboard {
+        /* Page Content */
+        .page-content {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
         }
         
         .dashboard-header {
@@ -389,6 +553,109 @@
             font-weight: 600;
         }
         
+        /* COCO Advisor Page */
+        .advisor-container {
+            padding: 20px;
+        }
+        
+        .risk-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .risk-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .risk-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+        
+        .low-risk { border-top: 5px solid #78E08F; }
+        .medium-risk { border-top: 5px solid #F6B93B; }
+        .high-risk { border-top: 5px solid #E55039; }
+        
+        .chart-container-sm {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+        }
+        
+        .input-group-lg {
+            margin: 25px 0;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin: 15px 0;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #78E08F, #F6B93B, #E55039);
+            outline: none;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            border-color: #4A69BD;
+            box-shadow: 0 0 0 3px rgba(74, 105, 189, 0.2);
+            outline: none;
+        }
+        
+        .projection-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .projection-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #4A69BD, #6A89CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .instrument-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .instrument-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .instrument-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
         /* Footer */
         .app-footer {
             text-align: center;
@@ -404,14 +671,23 @@
             .charts-row, .tables-row {
                 grid-template-columns: 1fr;
             }
+            
+            .risk-section {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 768px) {
+            .app-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+            
             .sidebar {
                 width: 70px;
             }
             
-            .logo span, .nav-item span {
+            .logo span, .nav-item span, .user-details, .logout-btn span {
                 display: none;
             }
             
@@ -422,388 +698,859 @@
             .nav-item i {
                 margin-right: 0;
             }
+            
+            .user-profile {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <span>COCO</span>
-            </div>
-        </div>
-        <div class="nav-links">
-            <div class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Dashboard</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-wallet"></i>
-                <span>Portfolio</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-lightbulb"></i>
-                <span>COCO Advisor</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-retirement"></i>
-                <span>Retirement Planner</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-chart-pie"></i>
-                <span>Expense Optimizer</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-cogs"></i>
-                <span>Predictive Portfolio</span>
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <div class="header">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar transacciones, clientes...">
-            </div>
-            <div class="user-info">
-                <div class="notifications">
-                    <i class="fas fa-bell"></i>
+    <div class="app-container">
+        <!-- Login Page -->
+        <div class="login-container" id="login-page">
+            <div class="login-box">
+                <div class="login-logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>COCO</span>
                 </div>
-                <div class="user-avatar">
-                    JD
-                </div>
-                <div class="user-details">
-                    <div class="user-name">Valentina Santoveña</div>
-                    <div class="user-role">Administrador</div>
+                <h1 class="login-title">Consulting Opportunities & Cash Optimization</h1>
+                <p class="login-subtitle">SASALELE: Secure Assets, Secure A life you Love</p>
+                
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" placeholder="tu@email.com" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Ingresar</button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>© 2025 SASALELE. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
         
-        <!-- Dashboard Content -->
-        <div class="dashboard">
-            <div class="dashboard-header">
-                <h1>Dashboard Financiero</h1>
-                <p>Bienvenido a COCO - Tu asistente para optimizar inversiones y gastos</p>
-            </div>
-            
-            <!-- Cards Grid -->
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Valor del Portafolio</div>
-                        <div class="card-icon icon-blue">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">$128,657.25</div>
-                    <div class="card-footer">
-                        <div class="trend up">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>1.98% hoy</span>
-                        </div>
-                        <div>+$2,500.00</div>
+        <!-- Main Application -->
+        <div class="app-main" id="app-main">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="logo-container">
+                    <div class="logo">
+                        <i class="fas fa-chart-line"></i>
+                        <span>COCO</span>
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Flujo de Caja</div>
-                        <div class="card-icon icon-green">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
+                <div class="nav-links">
+                    <div class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
                     </div>
-                    <div class="card-value">$9,944.87</div>
-                    <div class="card-footer">
-                        <div class="trend down">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>3.2% este mes</span>
-                        </div>
-                        <div>Disponible</div>
+                    <div class="nav-item" data-page="advisor">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>COCO Advisor</span>
                     </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Rendimiento Anual</div>
-                        <div class="card-icon icon-orange">
-                            <i class="fas fa-percentage"></i>
-                        </div>
+                    <div class="nav-item" data-page="retirement">
+                        <i class="fas fa-retirement"></i>
+                        <span>Retirement Planner</span>
                     </div>
-                    <div class="card-value">12.8%</div>
-                    <div class="card-footer">
-                        <div class="trend up">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>2.4% vs año pasado</span>
-                        </div>
-                        <div>Meta: 15%</div>
+                    <div class="nav-item" data-page="expense">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Expense Optimizer</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cogs"></i>
+                        <span>Settings</span>
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Gastos Mensuales</div>
-                        <div class="card-icon">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                        </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        JD
                     </div>
-                    <div class="card-value">$4,850.30</div>
-                    <div class="card-footer">
-                        <div class="trend down">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>5.7% menos</span>
-                        </div>
-                        <div>Presupuesto: $5,200</div>
+                    <div class="user-details">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Administrador</div>
                     </div>
+                    <button class="logout-btn" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Salir</span>
+                    </button>
                 </div>
             </div>
             
-            <!-- Charts Section -->
-            <div class="charts-row">
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div class="chart-title">Rendimiento de Inversiones</div>
-                        <div class="chart-actions">
-                            <button>Mensual</button>
-                            <button>Trimestral</button>
-                            <button class="active">Anual</button>
-                        </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Header -->
+                <div class="header">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar transacciones, clientes...">
                     </div>
-                    <div class="chart-wrapper">
-                        <canvas id="performanceChart"></canvas>
+                    <div class="current-date" id="current-date">Cargando fecha...</div>
+                </div>
+                
+                <!-- Dashboard Page -->
+                <div class="page-content active" id="dashboard-page">
+                    <div class="dashboard">
+                        <div class="dashboard-header">
+                            <h1>Dashboard Financiero</h1>
+                            <p>Bienvenido a COCO - Tu asistente para optimizar inversiones y gastos</p>
+                        </div>
+                        
+                        <!-- Cards Grid -->
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Valor del Portafolio</div>
+                                    <div class="card-icon icon-blue">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">$128,657.25</div>
+                                <div class="card-footer">
+                                    <div class="trend up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>1.98% hoy</span>
+                                    </div>
+                                    <div>+$2,500.00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Flujo de Caja</div>
+                                    <div class="card-icon icon-green">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">$9,944.87</div>
+                                <div class="card-footer">
+                                    <div class="trend down">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>3.2% este mes</span>
+                                    </div>
+                                    <div>Disponible</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Rendimiento Anual</div>
+                                    <div class="card-icon icon-orange">
+                                        <i class="fas fa-percentage"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">12.8%</div>
+                                <div class="card-footer">
+                                    <div class="trend up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>2.4% vs año pasado</span>
+                                    </div>
+                                    <div>Meta: 15%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Gastos Mensuales</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">$4,850.30</div>
+                                <div class="card-footer">
+                                    <div class="trend down">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>5.7% menos</span>
+                                    </div>
+                                    <div>Presupuesto: $5,200</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Charts Section -->
+                        <div class="charts-row">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <div class="chart-title">Rendimiento de Inversiones</div>
+                                    <div class="chart-actions">
+                                        <button>Mensual</button>
+                                        <button>Trimestral</button>
+                                        <button class="active">Anual</button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <div class="chart-title">Distribución de Activos</div>
+                                    <div class="chart-actions">
+                                        <button><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="allocationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tables Section -->
+                        <div class="tables-row">
+                            <div class="table-container">
+                                <div class="table-header">
+                                    <div class="table-title">Facturas de Clientes</div>
+                                    <a href="#" class="view-all">Ver todo</a>
+                                </div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Estado</th>
+                                            <th>Cantidad</th>
+                                            <th>Monto</th>
+                                            <th>Vencimiento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="status pending">Por Validar</span></td>
+                                            <td>1</td>
+                                            <td class="amount">$4,427.50</td>
+                                            <td>15 Nov</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="status unpaid">No Pagadas</span></td>
+                                            <td>5</td>
+                                            <td class="amount">$128,657.25</td>
+                                            <td>Varía</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="status unpaid">Vencidas</span></td>
+                                            <td>3</td>
+                                            <td class="amount">$92,750.00</td>
+                                            <td>Pasadas</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="table-container">
+                                <div class="table-header">
+                                    <div class="table-title">Transacciones Bancarias</div>
+                                    <a href="#" class="view-all">Ver todo</a>
+                                </div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Cantidad</th>
+                                            <th>Monto</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Por conciliar</td>
+                                            <td>8</td>
+                                            <td class="amount">$6,378.00</td>
+                                            <td><span class="status pending">Pendiente</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Saldo anterior</td>
+                                            <td>-</td>
+                                            <td class="amount">$9,944.87</td>
+                                            <td><span class="status paid">Conciliado</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pagos</td>
+                                            <td>12</td>
+                                            <td class="amount">$8,578.50</td>
+                                            <td><span class="status paid">Conciliado</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operaciones varias</td>
+                                            <td>5</td>
+                                            <td class="amount">$2,500.00</td>
+                                            <td><span class="status pending">Pendiente</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Cards -->
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Planificador de Jubilación</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-retirement"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">Recomendación: $1,200/mes</div>
+                                <div class="card-footer">
+                                    <div>Meta: $500,000 a los 65</div>
+                                    <div>Deducción anual: $2,400</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Optimizador de Gastos</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">Salario: $6,500/mes</div>
+                                <div class="card-footer">
+                                    <div>Recomendado: 50/30/20</div>
+                                    <div>Actual: 55/25/20</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div class="chart-title">Distribución de Activos</div>
-                        <div class="chart-actions">
-                            <button><i class="fas fa-sync-alt"></i></button>
+                <!-- COCO Advisor Page -->
+                <div class="page-content" id="advisor-page">
+                    <div class="advisor-container">
+                        <div class="dashboard-header">
+                            <h1>COCO Advisor</h1>
+                            <p>Simulador de inversiones por nivel de riesgo</p>
                         </div>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="allocationChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tables Section -->
-            <div class="tables-row">
-                <div class="table-container">
-                    <div class="table-header">
-                        <div class="table-title">Facturas de Clientes</div>
-                        <a href="#" class="view-all">Ver todo</a>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Estado</th>
-                                <th>Cantidad</th>
-                                <th>Monto</th>
-                                <th>Vencimiento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="status pending">Por Validar</span></td>
-                                <td>1</td>
-                                <td class="amount">$4,427.50</td>
-                                <td>15 Nov</td>
-                            </tr>
-                            <tr>
-                                <td><span class="status unpaid">No Pagadas</span></td>
-                                <td>5</td>
-                                <td class="amount">$128,657.25</td>
-                                <td>Varía</td>
-                            </tr>
-                            <tr>
-                                <td><span class="status unpaid">Vencidas</span></td>
-                                <td>3</td>
-                                <td class="amount">$92,750.00</td>
-                                <td>Pasadas</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="table-container">
-                    <div class="table-header">
-                        <div class="table-title">Transacciones Bancarias</div>
-                        <a href="#" class="view-all">Ver todo</a>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Descripción</th>
-                                <th>Cantidad</th>
-                                <th>Monto</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Por conciliar</td>
-                                <td>8</td>
-                                <td class="amount">$6,378.00</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                            </tr>
-                            <tr>
-                                <td>Saldo anterior</td>
-                                <td>-</td>
-                                <td class="amount">$9,944.87</td>
-                                <td><span class="status paid">Conciliado</span></td>
-                            </tr>
-                            <tr>
-                                <td>Pagos</td>
-                                <td>12</td>
-                                <td class="amount">$8,578.50</td>
-                                <td><span class="status paid">Conciliado</span></td>
-                            </tr>
-                            <tr>
-                                <td>Operaciones varias</td>
-                                <td>5</td>
-                                <td class="amount">$2,500.00</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Additional Cards -->
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Planificador de Jubilación</div>
-                        <div class="card-icon">
-                            <i class="fas fa-retirement"></i>
+                        
+                        <div class="input-group-lg">
+                            <label for="investment">Monto a invertir (MXN):</label>
+                            <input type="number" id="investment" placeholder="Ej. 10,000" min="100" value="10000">
                         </div>
-                    </div>
-                    <div class="card-value">Recomendación: $1,200/mes</div>
-                    <div class="card-footer">
-                        <div>Meta: $500,000 a los 65</div>
-                        <div>Deducción anual: $2,400</div>
+                        
+                        <div class="risk-section">
+                            <div class="risk-card low-risk">
+                                <h2>Bajo Riesgo</h2>
+                                <div class="chart-container-sm">
+                                    <canvas id="lowRiskChart"></canvas>
+                                </div>
+                                <div class="projection">
+                                    <h3>Proyección Anual:</h3>
+                                    <div class="projection-value" id="lowRiskValue">$10,500</div>
+                                    <p>Rendimiento estimado: 5%</p>
+                                </div>
+                            </div>
+                            
+                            <div class="risk-card medium-risk">
+                                <h2>Riesgo Medio</h2>
+                                <div class="chart-container-sm">
+                                    <canvas id="mediumRiskChart"></canvas>
+                                </div>
+                                <div class="projection">
+                                    <h3>Proyección Anual:</h3>
+                                    <div class="projection-value" id="mediumRiskValue">$11,200</div>
+                                    <p>Rendimiento estimado: 12%</p>
+                                </div>
+                            </div>
+                            
+                            <div class="risk-card high-risk">
+                                <h2>Alto Riesgo</h2>
+                                <div class="chart-container-sm">
+                                    <canvas id="highRiskChart"></canvas>
+                                </div>
+                                <div class="projection">
+                                    <h3>Proyección Anual:</h3>
+                                    <div class="projection-value" id="highRiskValue">$12,500</div>
+                                    <p>Rendimiento estimado: 25%</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="projection-card">
+                            <h2>Instrumentos Recomendados</h2>
+                            <div class="instrument-list">
+                                <!-- Los instrumentos se cargarán dinámicamente con JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Optimizador de Gastos</div>
-                        <div class="card-icon">
-                            <i class="fas fa-chart-pie"></i>
+                <!-- Retirement Planner Page -->
+                <div class="page-content" id="retirement-page">
+                    <div class="dashboard">
+                        <div class="dashboard-header">
+                            <h1>Retirement Planner</h1>
+                            <p>Planifica tu jubilación con estrategias fiscales inteligentes</p>
+                        </div>
+                        
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Estado Actual</div>
+                                    <div class="card-icon icon-blue">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">$48,500</div>
+                                <div class="card-footer">
+                                    <div>Meta: $500,000</div>
+                                    <div>Edad actual: 35 años</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Ahorro Recomendado</div>
+                                    <div class="card-icon icon-green">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">$1,200/mes</div>
+                                <div class="card-footer">
+                                    <div>Deducción anual: $2,400</div>
+                                    <div>Beneficio fiscal: $480</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <div class="chart-title">Proyección de Jubilación</div>
+                                <div class="chart-actions">
+                                    <button>5 años</button>
+                                    <button>10 años</button>
+                                    <button class="active">65 años</button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="retirementChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="cards-grid" style="margin-top: 30px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Opciones Disponibles</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-list"></i>
+                                    </div>
+                                </div>
+                                <ul style="padding-left: 20px; margin-top: 15px;">
+                                    <li style="margin-bottom: 10px;">Afore - Rendimiento promedio 6.5%</li>
+                                    <li style="margin-bottom: 10px;">Plan Personal de Retiro (PPR) - Deducción fiscal</li>
+                                    <li style="margin-bottom: 10px;">Inversiones a largo plazo</li>
+                                    <li>Seguros de vida con ahorro</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Beneficios Fiscales</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-percent"></i>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <p>Contribuciones deducibles hasta 10% de tu ingreso anual o 5 UMA (aprox. $15,000)</p>
+                                    <p style="margin-top: 10px;">Los rendimientos generados son exentos de impuestos hasta el retiro</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-value">Salario: $6,500/mes</div>
-                    <div class="card-footer">
-                        <div>Recomendado: 50/30/20</div>
-                        <div>Actual: 55/25/20</div>
+                </div>
+                
+                <!-- Expense Optimizer Page -->
+                <div class="page-content" id="expense-page">
+                    <div class="dashboard">
+                        <div class="dashboard-header">
+                            <h1>Expense Optimizer</h1>
+                            <p>Optimiza tus gastos y maximiza tus ahorros</p>
+                        </div>
+                        
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Ingresos Mensuales</div>
+                                    <div class="card-icon icon-green">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                </div>
+                                <input type="number" id="monthly-income" placeholder="Ingresa tu salario" value="6500" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 18px;">
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Distribución Actual</div>
+                                    <div class="card-icon icon-orange">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value">55/25/20</div>
+                                <div class="card-footer">
+                                    <div>Necesidades: 55%</div>
+                                    <div>Deseos: 25%</div>
+                                    <div>Ahorros: 20%</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <div class="chart-title">Distribución Recomendada</div>
+                                <div class="chart-actions">
+                                    <button>Mensual</button>
+                                    <button class="active">Anual</button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="expenseChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="cards-grid" style="margin-top: 30px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Recomendaciones de Ahorro</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                </div>
+                                <ul style="padding-left: 20px; margin-top: 15px;">
+                                    <li style="margin-bottom: 10px;">Reduce gastos en comida fuera en $300/mes</li>
+                                    <li style="margin-bottom: 10px;">Cancela suscripciones no utilizadas ($120/mes)</li>
+                                    <li style="margin-bottom: 10px;">Optimiza planes de telefonía y TV ($150/mes)</li>
+                                    <li>Considera transporte compartido ($200/mes)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Proyección de Ahorro</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <p>Con las recomendaciones, podrías ahorrar adicionalmente:</p>
+                                    <div style="font-size: 32px; font-weight: bold; color: var(--success); margin: 15px 0;">$770/mes</div>
+                                    <p>Equivalente a $9,240 anuales</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Footer -->
+                <div class="app-footer">
+                    <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
+                    <p>© 2025 Todos los derechos reservados</p>
+                </div>
             </div>
-        </div>
-        
-        <!-- Footer -->
-        <div class="app-footer">
-            <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A LifE you LovE</p>
-            <p>© 2025 Todos los derechos reservados</p>
         </div>
     </div>
 
     <script>
-        // Performance Chart
-        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
-        const performanceChart = new Chart(performanceCtx, {
-            type: 'line',
-            data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                datasets: [{
-                    label: 'Rendimiento',
-                    data: [105000, 108000, 112000, 115000, 117000, 119500, 122000, 124000, 125500, 127000, 128657, 130000],
-                    borderColor: '#3182CE',
-                    backgroundColor: 'rgba(49, 130, 206, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
+        // Datos para COCO Advisor
+        const instruments = {
+            low: [
+                { name: "CETES 28 días", yield: "4.5%", risk: "Bajo", description: "Deuda gubernamental mexicana" },
+                { name: "UDIBONOS", yield: "5.2%", risk: "Bajo", description: "Bonos indexados a inflación" },
+                { name: "Cuentas de ahorro", yield: "3.8%", risk: "Muy bajo", description: "Liquidez inmediata" }
+            ],
+            medium: [
+                { name: "ETFs Globales", yield: "8-12%", risk: "Medio", description: "Diversificación internacional" },
+                { name: "Fibras", yield: "6-9%", risk: "Medio", description: "Bienes raíces cotizados" },
+                { name: "Deuda corporativa", yield: "7-10%", risk: "Medio", description: "Bonos de empresas sólidas" }
+            ],
+            high: [
+                { name: "Acciones de crecimiento", yield: "15-30%", risk: "Alto", description: "Empresas tecnológicas" },
+                { name: "Criptomonedas", yield: "Variable", risk: "Muy alto", description: "Activos digitales" },
+                { name: "Capital emprendedor", yield: "20%+", risk: "Alto", description: "Startups en etapa temprana" }
+            ]
+        };
+
+        // Configuración común para gráficos de dona
+        const donutConfig = {
+            type: 'doughnut',
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+                cutout: '70%',
+                plugins: { legend: { display: false } }
+            }
+        };
+
+        // Inicializar gráficos del dashboard
+        function initDashboardCharts() {
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Rendimiento',
+                        data: [105000, 108000, 112000, 115000, 117000, 119500, 122000, 124000, 125500, 127000, 128657, 130000],
+                        borderColor: '#3182CE',
+                        backgroundColor: 'rgba(49, 130, 206, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: false, grid: { color: 'rgba(0, 0, 0, 0.05)' } },
+                        x: { grid: { display: false } }
                     }
                 }
-            }
-        });
-        
-        // Asset Allocation Chart
-        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
-        const allocationChart = new Chart(allocationCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Acciones', 'Bonos', 'Efectivo', 'Fondos', 'Cripto'],
-                datasets: [{
-                    data: [45, 25, 15, 10, 5],
-                    backgroundColor: [
-                        '#3182CE',
-                        '#38A169',
-                        '#718096',
-                        '#DD6B20',
-                        '#805AD5'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
+            });
+            
+            // Asset Allocation Chart
+            const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+            new Chart(allocationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Acciones', 'Bonos', 'Efectivo', 'Fondos', 'Cripto'],
+                    datasets: [{
+                        data: [45, 25, 15, 10, 5],
+                        backgroundColor: ['#3182CE', '#38A169', '#718096', '#DD6B20', '#805AD5'],
+                        borderWidth: 0
+                    }]
                 },
-                cutout: '70%'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Inicializar gráficos para COCO Advisor
+        function initAdvisorCharts() {
+            // Low Risk Chart
+            new Chart(
+                document.getElementById('lowRiskChart'),
+                {
+                    ...donutConfig,
+                    data: {
+                        labels: ['Inversión', 'Ganancias'],
+                        datasets: [{
+                            data: [100, 5],
+                            backgroundColor: ['#E2E8F0', '#78E08F']
+                        }]
+                    }
+                }
+            );
+
+            // Medium Risk Chart
+            new Chart(
+                document.getElementById('mediumRiskChart'),
+                {
+                    ...donutConfig,
+                    data: {
+                        labels: ['Inversión', 'Ganancias'],
+                        datasets: [{
+                            data: [100, 12],
+                            backgroundColor: ['#E2E8F0', '#F6B93B']
+                        }]
+                    }
+                }
+            );
+
+            // High Risk Chart
+            new Chart(
+                document.getElementById('highRiskChart'),
+                {
+                    ...donutConfig,
+                    data: {
+                        labels: ['Inversión', 'Ganancias'],
+                        datasets: [{
+                            data: [100, 25],
+                            backgroundColor: ['#E2E8F0', '#E55039']
+                        }]
+                    }
+                }
+            );
+        }
+
+        // Inicializar gráficos para Retirement Planner
+        function initRetirementCharts() {
+            const ctx = document.getElementById('retirementChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Actual', '5 años', '10 años', '15 años', 'Jubilación'],
+                    datasets: [{
+                        label: 'Ahorro acumulado',
+                        data: [48500, 125000, 250000, 375000, 500000],
+                        backgroundColor: '#3182CE',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { callback: function(value) { return '$' + value.toLocaleString(); } }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Inicializar gráficos para Expense Optimizer
+        function initExpenseCharts() {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Necesidades (50%)', 'Deseos (30%)', 'Ahorros (20%)'],
+                    datasets: [{
+                        data: [50, 30, 20],
+                        backgroundColor: ['#3182CE', '#DD6B20', '#38A169'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        // Cargar instrumentos para COCO Advisor
+        function loadInstruments() {
+            const container = document.querySelector('.instrument-list');
+            container.innerHTML = '';
+            
+            [...instruments.low, ...instruments.medium, ...instruments.high].forEach(instr => {
+                const card = document.createElement('div');
+                card.className = 'instrument-card';
+                card.innerHTML = `
+                    <h3>${instr.name}</h3>
+                    <p><strong>Rendimiento:</strong> ${instr.yield}</p>
+                    <p><strong>Riesgo:</strong> ${instr.risk}</p>
+                    <p>${instr.description}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Actualizar proyecciones de COCO Advisor
+        function updateProjections() {
+            const amount = parseFloat(document.getElementById('investment').value) || 0;
+            
+            document.getElementById('lowRiskValue').textContent = 
+                `$${(amount * 1.05).toLocaleString('es-MX', { maximumFractionDigits: 2 })}`;
+            
+            document.getElementById('mediumRiskValue').textContent = 
+                `$${(amount * 1.12).toLocaleString('es-MX', { maximumFractionDigits: 2 })}`;
+            
+            document.getElementById('highRiskValue').textContent = 
+                `$${(amount * 1.25).toLocaleString('es-MX', { maximumFractionDigits: 2 })}`;
+            
+            // Animación suave
+            document.querySelectorAll('.projection-value').forEach(el => {
+                el.style.transform = 'scale(1.1)';
+                setTimeout(() => el.style.transform = 'scale(1)', 300);
+            });
+        }
+
+        // Navegación entre páginas
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const pages = document.querySelectorAll('.page-content');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const targetPage = this.getAttribute('data-page');
+                    
+                    // Actualizar navegación activa
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar página seleccionada
+                    pages.forEach(page => page.classList.remove('active'));
+                    document.getElementById(`${targetPage}-page`).classList.add('active');
+                    
+                    // Inicializar gráficos si es necesario
+                    if(targetPage === 'advisor' && !window.advisorChartsInitialized) {
+                        initAdvisorCharts();
+                        loadInstruments();
+                        updateProjections();
+                        window.advisorChartsInitialized = true;
+                    }
+                    
+                    if(targetPage === 'retirement' && !window.retirementChartsInitialized) {
+                        initRetirementCharts();
+                        window.retirementChartsInitialized = true;
+                    }
+                    
+                    if(targetPage === 'expense' && !window.expenseChartsInitialized) {
+                        initExpenseCharts();
+                        window.expenseChartsInitialized = true;
+                    }
+                });
+            });
+        }
+
+        // Configurar fecha actual
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('es-ES', options);
+        }
+
+        // Manejar login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simular validación de credenciales
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if(email && password) {
+                // Ocultar login, mostrar aplicación
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('app-main').style.display = 'flex';
+                
+                // Inicializar componentes
+                initDashboardCharts();
+                setCurrentDate();
+                setupNavigation();
             }
         });
-        
-        // Active menu item
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
+
+        // Manejar logout
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            document.getElementById('app-main').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
         });
-        
-        // Active chart button
-        const chartButtons = document.querySelectorAll('.chart-actions button');
-        chartButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                chartButtons.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+
+        // Actualizar proyecciones al cambiar el monto de inversión
+        document.getElementById('investment').addEventListener('input', updateProjections);
+
+        // Inicializar la fecha actual
+        setCurrentDate();
     </script>
 </body>
 </html>
