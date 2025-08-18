@@ -25,7 +25,7 @@ CREATE TABLE `trades`(
 CREATE TABLE `market_prices`(
     `price_Id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `price_Date` INT NOT NULL,
-    `close` INT NOT NULL,
+    `close` DECIMAL(8, 2) NOT NULL,
     `high` DECIMAL(8, 2) NOT NULL,
     `low` DECIMAL(8, 2) NOT NULL,
     `open` DECIMAL(8, 2) NOT NULL,
