@@ -36,6 +36,7 @@ CREATE TABLE `stock`(
     `stock_Id` INT UNSIGNED NOT NULL,
     `ticker` VARCHAR(255) NOT NULL,
     `stock_Name` VARCHAR(255) NOT NULL,
+    `sector` VARCHAR(45),
     PRIMARY KEY(`stock_Id`)
 );
 ALTER TABLE
