@@ -16,5 +16,5 @@ SELECT get_portafolio_profit(1402944639) AS "Portafolio Profit";
 -- Historial de compra/venta de acciones del usuario
 CALL get_purchase_sale_history(1402944639, "buy");
 
--- Hisotrial del valor del portafolio
+-- Hisotrial del valor del portafolio del usuario
 CALL get_portafolio_history(1402944639);
