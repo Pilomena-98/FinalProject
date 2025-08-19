@@ -46,13 +46,13 @@
         .container {
             display: flex;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: var(--card-bg);
             border-radius: 25px;
             overflow: hidden;
             box-shadow: var(--shadow);
             animation: fadeIn 0.8s ease-out;
-            min-height: 600px;
+            min-height: 700px;
         }
         
         .brand-section {
@@ -90,12 +90,14 @@
         }
         
         .login-section {
-            flex: 1;
-            padding: 50px 40px;
+            flex: 1.5;
+            padding: 40px 30px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             position: relative;
+            overflow-y: auto;
+            max-height: 700px;
         }
         
         .logo-container {
@@ -168,7 +170,7 @@
         
         .login-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         
         .login-title {
@@ -190,7 +192,7 @@
             display: flex;
             background: var(--accent-soft);
             border-radius: 50px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             padding: 5px;
         }
         
@@ -220,7 +222,7 @@
         }
         
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .input-group label {
@@ -244,7 +246,7 @@
             font-size: 18px;
         }
         
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
             padding: 16px 20px 16px 50px;
             border: 2px solid var(--border);
@@ -253,10 +255,20 @@
             transition: var(--transition);
         }
         
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.2);
             outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-col {
+            flex: 1;
         }
         
         .options {
@@ -415,10 +427,10 @@
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
-                max-width: 500px;
+                max-width: 700px;
             }
             
             .brand-section {
@@ -427,6 +439,13 @@
             
             .login-section {
                 padding: 40px 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
             }
         }
         
@@ -514,7 +533,7 @@
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                     
-                    <button type="submit" class="action-btn">Sign In</button>
+                    <button type="submit" class="action-btn" id="login-btn">Sign In</button>
                     
                     <div class="divider">
                         <span>or continue with</span>
@@ -535,11 +554,45 @@
                 </div>
                 
                 <div class="form-content" id="signup-form">
-                    <div class="input-group">
-                        <label for="name">Full Name</label>
-                        <div class="input-field">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="name" placeholder="Your full name" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="name">First Name</label>
+                                <div class="input-field">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="name" placeholder="First Name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="lastName">Last Name</label>
+                                <div class="input-field">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="lastName" placeholder="Last Name" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="phone">Phone</label>
+                                <div class="input-field">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" id="phone" placeholder="(123) 456-7890" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="age">Age</label>
+                                <div class="input-field">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <input type="number" id="age" placeholder="Age" min="18" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -551,19 +604,87 @@
                         </div>
                     </div>
                     
-                    <div class="input-group">
-                        <label for="signup-password">Password</label>
-                        <div class="input-field">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="signup-password" placeholder="••••••••" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="gender">Gender</label>
+                                <div class="input-field">
+                                    <i class="fas fa-venus-mars"></i>
+                                    <select id="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="O">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="state">State</label>
+                                <div class="input-field">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <input type="text" id="state" placeholder="State" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="input-group">
-                        <label for="confirm-password">Confirm Password</label>
+                        <label for="street">Street Address</label>
                         <div class="input-field">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="confirm-password" placeholder="••••••••" required>
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="street" placeholder="Street Address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="city">City</label>
+                                <div class="input-field">
+                                    <i class="fas fa-city"></i>
+                                    <input type="text" id="city" placeholder="City" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="postalCode">Postal Code</label>
+                                <div class="input-field">
+                                    <i class="fas fa-mail-bulk"></i>
+                                    <input type="text" id="postalCode" placeholder="Postal Code" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="country">Country</label>
+                        <div class="input-field">
+                            <i class="fas fa-globe"></i>
+                            <input type="text" id="country" placeholder="Country" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="signup-password">Password</label>
+                                <div class="input-field">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="signup-password" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="input-group">
+                                <label for="confirm-password">Confirm Password</label>
+                                <div class="input-field">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="confirm-password" placeholder="••••••••" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -574,7 +695,7 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="action-btn">Create Account</button>
+                    <button type="submit" class="action-btn" id="signup-btn">Create Account</button>
                     
                     <div class="terms">
                         By creating an account, you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
@@ -630,53 +751,65 @@
                 showForm(link.dataset.form);
             });
         });
+        
         // Manejar el inicio de sesión
-        document.querySelector('#login-form .action-btn').addEventListener('click', async function(e) {
+        document.getElementById('login-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-        try {
+            try {
                 const response = await fetch(`http://localhost:5000/api/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
         
-            // Manejo de errores no-200 (p.ej. 401)
-             if (!response.ok) {
-               const err = await response.json().catch(() => ({}));
-              alert(err.message || 'Login fallido.');
-            return;
-             }
-            const result = await response.json();
-             // Guarda el userId (y lo que necesites) para usarlo en main.html
-             const user = result.user;
-             localStorage.setItem('userId', String(user.user_Id));
-             //localStorage.setItem('userName', result.name || '');
-            if (result.success) {
+                // Manejo de errores no-200 (p.ej. 401)
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    alert(err.message || 'Login fallido.');
+                    return;
+                }
                 
-                window.location.href = 'main.html';
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
+                const result = await response.json();
+                // Guarda el userId (y lo que necesites) para usarlo en main.html
+                const user = result.user;
+                localStorage.setItem('userId', String(user.user_Id));
+                //localStorage.setItem('userName', result.name || '');
+                
+                if (result.success) {
+                    window.location.href = 'main.html';
+                } else {
+                    alert('Invalid credentials. Please try again.');
+                }
             } catch (error) {
                 console.error('Login error:', error);
-                    alert('Login failed. Please try again later.');
+                alert('Login failed. Please try again later.');
             }
         });
           
         // Handle signup
-        document.querySelector('#signup-form .action-btn').addEventListener('click', function(e) {
+        document.getElementById('signup-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
             const email = document.getElementById('signup-email').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const state = document.getElementById('state').value;
+            const street = document.getElementById('street').value;
+            const postalCode = document.getElementById('postalCode').value;
+            const city = document.getElementById('city').value;
+            const country = document.getElementById('country').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             const terms = document.getElementById('terms').checked;
             
             // Validation
-            if (!name || !email || !password || !confirmPassword) {
+            if (!name || !lastName || !phone || !email || !age || !gender || !state || 
+                !street || !postalCode || !city || !country || !password || !confirmPassword) {
                 alert('Please complete all fields');
                 return;
             }
@@ -691,11 +824,45 @@
                 return;
             }
             
-            // Redirect to main application after signup
-            alert('Account created successfully! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
+            // Create user object
+            const userData = {
+                name,
+                lastName,
+                phone,
+                email,
+                age: parseInt(age),
+                gender,
+                state,
+                streetAddress: street,
+                postalCode,
+                city,
+                country,
+                password
+            };
+            
+            try {
+                // Send registration request to server
+                const response = await fetch('http://localhost:5000/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Account created successfully! Redirecting to login...');
+                    // Switch to login form
+                    showForm('login');
+                } else {
+                    alert(result.message || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again later.');
+            }
         });
     </script>
 </body>
