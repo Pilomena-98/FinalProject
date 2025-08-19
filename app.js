@@ -14,23 +14,24 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // Login
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const sql = 'SELECT * FROM user WHERE email = ? AND passwords = ?';
-  db.query(sql, [email, password], (err, results) => {
-      if (err) {
-          console.error('Database error:', err);
-          res.status(500).json({ success: false, message: 'Database error' });
-          return;
-      }
-      
-      if (results.length > 0) {
-          res.json({ success: true, user: results[0] });
-      } else {
-          res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-  });
+  try {
+    const [results] = await db.query(
+      'SELECT * FROM user WHERE email = ? AND passwords = ?',
+      [email, password]
+    );
+
+    if (results.length > 0) {
+      res.json({ success: true, user: results[0] });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).json({ success: false, message: 'Database error' });
+  }
 });
 
 // ✅ Endpoint: devuelve el valor total del portafolio de un usuario
