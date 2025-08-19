@@ -54,7 +54,7 @@ app.post('/api/signup', async (req, res) => {
 
     // Insertar nuevo usuario
     const [result] = await db.query(
-      `INSERT INTO user (name, last_Name, phone, email, age, gender, state, streetAddress, postalCode, city, country, passwords)
+      `INSERT INTO user (name, last_Name, phone, email, age, gender, state, street_Address, postal_Code, city, country, passwords)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [name, lastName, phone, email, age, gender, state, streetAddress, postalCode, city, country, password]
     );
