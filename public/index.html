@@ -650,8 +650,12 @@
             return;
              }
             const result = await response.json();
-        
+             // Guarda el userId (y lo que necesites) para usarlo en main.html
+             const user = result.user;
+             localStorage.setItem('userId', String(user.user_Id));
+             //localStorage.setItem('userName', result.name || '');
             if (result.success) {
+                
                 window.location.href = 'main.html';
             } else {
                 alert('Invalid credentials. Please try again.');
