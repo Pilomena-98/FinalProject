@@ -630,19 +630,35 @@
                 showForm(link.dataset.form);
             });
         });
-        
         // Manejar el inicio de sesión
-        document.querySelector('#login-form .action-btn').addEventListener('click', function(e) {
+        document.querySelector('#login-form .action-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Validación simple
-            if (email && password) {
-                // Redirigir a la aplicación principal
-                window.location.href = 'app.html';
+        try {
+                const response = await fetch(`http://localhost:5000/api/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+        
+            // Manejo de errores no-200 (p.ej. 401)
+             if (!response.ok) {
+               const err = await response.json().catch(() => ({}));
+              alert(err.message || 'Login fallido.');
+            return;
+             }
+            const result = await response.json();
+        
+            if (result.success) {
+                window.location.href = 'main.html';
             } else {
-                alert('Por favor completa todos los campos');
+                alert('Invalid credentials. Please try again.');
+            }
+            } catch (error) {
+                console.error('Login error:', error);
+                    alert('Login failed. Please try again later.');
             }
         });
         
@@ -674,7 +690,7 @@
             // Redirigir a la aplicación principal después de registro
             alert('¡Cuenta creada con éxito! Redirigiendo...');
             setTimeout(() => {
-                window.location.href = 'app.html';
+                window.location.href = 'index.html';
             }, 1500);
         });
     </script>
