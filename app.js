@@ -1,13 +1,37 @@
 import express from 'express';
 import db from './db.js';
+import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 const port = 5000;
 
 app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 
 // Servir archivos estáticos (frontend)
 app.use(express.static('public'));
+
+// Login
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const sql = 'SELECT * FROM user WHERE email = ? AND passwords = ?';
+  db.query(sql, [email, password], (err, results) => {
+      if (err) {
+          console.error('Database error:', err);
+          res.status(500).json({ success: false, message: 'Database error' });
+          return;
+      }
+      
+      if (results.length > 0) {
+          res.json({ success: true, user: results[0] });
+      } else {
+          res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+  });
+});
 
 // ✅ Endpoint: devuelve el valor total del portafolio de un usuario
 app.get('/api/portfolio/:userId', async (req, res) => {
