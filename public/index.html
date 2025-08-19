@@ -46,19 +46,19 @@
         .container {
             display: flex;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: var(--card-bg);
             border-radius: 25px;
             overflow: hidden;
             box-shadow: var(--shadow);
             animation: fadeIn 0.8s ease-out;
-            min-height: 600px;
+            min-height: auto;
         }
         
         .brand-section {
             flex: 1;
             background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            padding: 50px 40px;
+            padding: 40px 30px;
             color: white;
             display: flex;
             flex-direction: column;
@@ -90,25 +90,26 @@
         }
         
         .login-section {
-            flex: 1;
-            padding: 50px 40px;
+            flex: 1.5;
+            padding: 40px 30px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             position: relative;
+            overflow-y: visible;
         }
         
         .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             z-index: 2;
         }
         
         .logo-image {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: white;
             display: flex;
@@ -118,25 +119,25 @@
         }
         
         .logo-image i {
-            font-size: 32px;
+            font-size: 28px;
             color: var(--accent);
         }
         
         .logo-text {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: white;
         }
         
         .brand-title {
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 15px;
             z-index: 2;
         }
         
         .brand-subtitle {
-            font-size: 18px;
-            margin-bottom: 30px;
+            font-size: 16px;
+            margin-bottom: 25px;
             opacity: 0.9;
             z-index: 2;
             line-height: 1.6;
@@ -144,7 +145,7 @@
         
         .brand-features {
             list-style: none;
-            margin-top: 40px;
+            margin-top: 30px;
             z-index: 2;
         }
         
@@ -152,34 +153,35 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
-            font-size: 16px;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
         
         .brand-features i {
             background: rgba(255,255,255,0.2);
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
         }
         
         .login-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
         
         .login-title {
-            font-size: 28px;
+            font-size: 24px;
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .login-subtitle {
             color: var(--text-light);
-            font-size: 16px;
+            font-size: 14px;
         }
         
         .form-container {
@@ -190,18 +192,19 @@
             display: flex;
             background: var(--accent-soft);
             border-radius: 50px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding: 5px;
         }
         
         .toggle-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
             transition: var(--transition);
+            font-size: 14px;
         }
         
         .toggle-btn.active {
@@ -216,19 +219,25 @@
         }
         
         .form-content.active {
-            display: block;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .full-width {
+            grid-column: 1 / span 2;
         }
         
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 500;
             color: var(--secondary);
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .input-field {
@@ -237,23 +246,23 @@
         
         .input-field i {
             position: absolute;
-            left: 18px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-light);
-            font-size: 18px;
+            font-size: 16px;
         }
         
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
-            padding: 16px 20px 16px 50px;
+            padding: 14px 15px 14px 45px;
             border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 14px;
             transition: var(--transition);
         }
         
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.2);
             outline: none;
@@ -263,14 +272,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            font-size: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
         
         .remember {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .remember input {
@@ -282,6 +291,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
+            font-size: 13px;
         }
         
         .forgot-password:hover {
@@ -291,12 +301,12 @@
         
         .action-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: var(--accent);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -312,7 +322,7 @@
         .divider {
             text-align: center;
             position: relative;
-            margin: 25px 0;
+            margin: 20px 0;
         }
         
         .divider::before {
@@ -328,33 +338,34 @@
         
         .divider span {
             position: relative;
-            padding: 0 15px;
+            padding: 0 12px;
             background: var(--card-bg);
             color: var(--text-light);
             z-index: 2;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .social-login {
             display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .social-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             font-weight: 500;
             color: var(--secondary);
             cursor: pointer;
             transition: var(--transition);
+            font-size: 13px;
         }
         
         .social-btn:hover {
@@ -364,8 +375,8 @@
         
         .switch-form {
             text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
+            margin-top: 20px;
+            font-size: 13px;
             color: var(--text-light);
         }
         
@@ -383,8 +394,8 @@
         }
         
         .terms {
-            margin-top: 20px;
-            font-size: 12px;
+            margin-top: 15px;
+            font-size: 11px;
             color: var(--text-light);
             text-align: center;
             line-height: 1.6;
@@ -396,11 +407,11 @@
         }
         
         .login-footer {
-            margin-top: 30px;
+            margin-top: 25px;
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 13px;
             text-align: center;
-            padding-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid var(--border);
         }
         
@@ -415,10 +426,10 @@
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
-                max-width: 500px;
+                max-width: 700px;
             }
             
             .brand-section {
@@ -426,7 +437,29 @@
             }
             
             .login-section {
-                padding: 40px 30px;
+                padding: 30px;
+            }
+            
+            .form-content.active {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-content.active {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: 1;
+            }
+            
+            .social-login {
+                flex-direction: column;
             }
         }
         
@@ -435,16 +468,16 @@
                 border-radius: 15px;
             }
             
-            .brand-section {
-                padding: 30px 20px;
+            .brand-section, .login-section {
+                padding: 20px;
             }
             
-            .login-section {
-                padding: 30px 20px;
-            }
-            
-            .social-login {
+            .form-toggle {
                 flex-direction: column;
+            }
+            
+            .toggle-btn {
+                margin-bottom: 5px;
             }
         }
     </style>
@@ -490,7 +523,7 @@
                 </div>
                 
                 <div class="form-content active" id="login-form">
-                    <div class="input-group">
+                    <div class="input-group full-width">
                         <label for="email">Email</label>
                         <div class="input-field">
                             <i class="fas fa-envelope"></i>
@@ -498,7 +531,7 @@
                         </div>
                     </div>
                     
-                    <div class="input-group">
+                    <div class="input-group full-width">
                         <label for="password">Password</label>
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
@@ -506,7 +539,7 @@
                         </div>
                     </div>
                     
-                    <div class="options">
+                    <div class="options full-width">
                         <div class="remember">
                             <input type="checkbox" id="remember">
                             <label for="remember">Remember me</label>
@@ -514,13 +547,13 @@
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                     
-                    <button type="submit" class="action-btn">Sign In</button>
+                    <button type="submit" class="action-btn full-width" id="login-btn">Sign In</button>
                     
-                    <div class="divider">
+                    <div class="divider full-width">
                         <span>or continue with</span>
                     </div>
                     
-                    <div class="social-login">
+                    <div class="social-login full-width">
                         <button class="social-btn">
                             <i class="fab fa-google"></i> Google
                         </button>
@@ -529,25 +562,102 @@
                         </button>
                     </div>
                     
-                    <div class="switch-form">
+                    <div class="switch-form full-width">
                         New to COCO? <a href="#" data-form="signup">Sign up now</a>
                     </div>
                 </div>
                 
                 <div class="form-content" id="signup-form">
                     <div class="input-group">
-                        <label for="name">Full Name</label>
+                        <label for="name">First Name</label>
                         <div class="input-field">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="name" placeholder="Your full name" required>
+                            <input type="text" id="name" placeholder="First Name" required>
                         </div>
                     </div>
                     
                     <div class="input-group">
+                        <label for="lastName">Last Name</label>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="lastName" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="phone">Phone</label>
+                        <div class="input-field">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" placeholder="(123) 456-7890" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="age">Age</label>
+                        <div class="input-field">
+                            <i class="fas fa-birthday-cake"></i>
+                            <input type="number" id="age" placeholder="Age" min="18" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group full-width">
                         <label for="signup-email">Email</label>
                         <div class="input-field">
                             <i class="fas fa-envelope"></i>
                             <input type="email" id="signup-email" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="gender">Gender</label>
+                        <div class="input-field">
+                            <i class="fas fa-venus-mars"></i>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <option value="O">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="state">State</label>
+                        <div class="input-field">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="state" placeholder="State" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label for="street">Street Address</label>
+                        <div class="input-field">
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="street" placeholder="Street Address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="city">City</label>
+                        <div class="input-field">
+                            <i class="fas fa-city"></i>
+                            <input type="text" id="city" placeholder="City" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="postalCode">Postal Code</label>
+                        <div class="input-field">
+                            <i class="fas fa-mail-bulk"></i>
+                            <input type="text" id="postalCode" placeholder="Postal Code" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label for="country">Country</label>
+                        <div class="input-field">
+                            <i class="fas fa-globe"></i>
+                            <input type="text" id="country" placeholder="Country" required>
                         </div>
                     </div>
                     
@@ -567,20 +677,20 @@
                         </div>
                     </div>
                     
-                    <div class="options">
+                    <div class="options full-width">
                         <div class="remember">
                             <input type="checkbox" id="terms" required>
                             <label for="terms">I accept the Terms and Conditions</label>
                         </div>
                     </div>
                     
-                    <button type="submit" class="action-btn">Create Account</button>
+                    <button type="submit" class="action-btn full-width" id="signup-btn">Create Account</button>
                     
-                    <div class="terms">
+                    <div class="terms full-width">
                         By creating an account, you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
                     </div>
                     
-                    <div class="switch-form">
+                    <div class="switch-form full-width">
                         Already have an account? <a href="#" data-form="login">Sign in</a>
                     </div>
                 </div>
@@ -630,53 +740,64 @@
                 showForm(link.dataset.form);
             });
         });
+        
         // Manejar el inicio de sesión
-        document.querySelector('#login-form .action-btn').addEventListener('click', async function(e) {
+        document.getElementById('login-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-        try {
+            try {
                 const response = await fetch(`http://localhost:5000/api/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
         
-            // Manejo de errores no-200 (p.ej. 401)
-             if (!response.ok) {
-               const err = await response.json().catch(() => ({}));
-              alert(err.message || 'Login fallido.');
-            return;
-             }
-            const result = await response.json();
-             // Guarda el userId (y lo que necesites) para usarlo en main.html
-             const user = result.user;
-             localStorage.setItem('userId', String(user.user_Id));
-             //localStorage.setItem('userName', result.name || '');
-            if (result.success) {
+                // Manejo de errores no-200 (p.ej. 401)
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    alert(err.message || 'Login fallido.');
+                    return;
+                }
                 
-                window.location.href = 'main.html';
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
+                const result = await response.json();
+                // Guarda el userId (y lo que necesites) para usarlo en main.html
+                const user = result.user;
+                localStorage.setItem('userId', String(user.user_Id));
+                
+                if (result.success) {
+                    window.location.href = 'main.html';
+                } else {
+                    alert('Invalid credentials. Please try again.');
+                }
             } catch (error) {
                 console.error('Login error:', error);
-                    alert('Login failed. Please try again later.');
+                alert('Login failed. Please try again later.');
             }
         });
           
         // Handle signup
-        document.querySelector('#signup-form .action-btn').addEventListener('click', function(e) {
+        document.getElementById('signup-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
             const email = document.getElementById('signup-email').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const state = document.getElementById('state').value;
+            const street = document.getElementById('street').value;
+            const postalCode = document.getElementById('postalCode').value;
+            const city = document.getElementById('city').value;
+            const country = document.getElementById('country').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             const terms = document.getElementById('terms').checked;
             
             // Validation
-            if (!name || !email || !password || !confirmPassword) {
+            if (!name || !lastName || !phone || !email || !age || !gender || !state || 
+                !street || !postalCode || !city || !country || !password || !confirmPassword) {
                 alert('Please complete all fields');
                 return;
             }
@@ -691,11 +812,45 @@
                 return;
             }
             
-            // Redirect to main application after signup
-            alert('Account created successfully! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
+            // Create user object
+            const userData = {
+                name,
+                lastName,
+                phone,
+                email,
+                age: parseInt(age),
+                gender,
+                state,
+                streetAddress: street,
+                postalCode,
+                city,
+                country,
+                password
+            };
+            
+            try {
+                // Send registration request to server
+                const response = await fetch('http://localhost:5000/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Account created successfully! Redirecting to login...');
+                    // Switch to login form
+                    showForm('login');
+                } else {
+                    alert(result.message || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again later.');
+            }
         });
     </script>
 </body>
