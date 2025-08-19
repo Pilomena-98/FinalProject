@@ -1,33 +1,54 @@
 import express from 'express';
-import mysql2 from 'mysql2';
-import XMLHttpRequest from 'xhr2';
+import db from './db.js';
 
 const app = express();
 const port = 5000;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.redirect("https://api.databursatil.com/v2/historicos?token=5fe41911cae9b9ae482b565fd21c6d&inicio=2025-01-01&final=2025-06-07&emisora_serie=AAPL*");
+// Servir archivos estáticos (frontend)
+app.use(express.static('public'));
+
+// ✅ Endpoint: devuelve el valor total del portafolio de un usuario
+app.get('/api/portfolio/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+          s.ticker,
+          SUM(
+              CASE 
+                  WHEN t.type = 'BUY' THEN t.quantity
+                  WHEN t.type = 'SELL' THEN -t.quantity
+                  ELSE 0
+              END
+          ) AS net_shares,
+          MAX(mp.close) AS latest_price,
+          SUM(
+              CASE 
+                  WHEN t.type = 'BUY' THEN t.quantity
+                  WHEN t.type = 'SELL' THEN -t.quantity
+                  ELSE 0
+              END
+          ) * MAX(mp.close) AS position_value
+      FROM trades t
+      JOIN stock s ON t.stock_Id = s.stock_Id
+      JOIN market_prices mp ON t.stock_Id = mp.stock_Id
+      WHERE t.user_Id = ?
+      GROUP BY s.ticker;
+    `, [userId]);
+
+    // Calculamos el total del portafolio sumando todas las posiciones
+    const totalValue = rows.reduce((sum, row) => sum + (row.position_value || 0), 0);
+
+    res.json({ total: totalValue, positions: rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener portafolio' });
+  }
 });
 
-function ObtenerPrecio() { 
-    const data = null;
-    
-    const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            console.log(this.responseText);
-        }
-    });
-
-    //xhr.open("GET", "https://api.databursatil.com/v2/intradia?token=5fe41911cae9b9ae482b565fd21c6d&emisora_serie=ALSEA*,GFNORTEO&bolsa=BMV&intervalo=1h&inicio=2025-05-09&final=2025-05-09");
-    xhr.open("GET", "https://api.databursatil.com/v2/descargas?token=5fe41911cae9b9ae482b565fd21c6d&archivo=guber&fecha=2025-06-02");
-    xhr.send(data);
-
-}
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`✅ Server is running on http://localhost:${port}`);
 });
