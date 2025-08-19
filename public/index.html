@@ -108,14 +108,10 @@
         }
         
         .logo-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            width: 70px;
+            height: 70px;
+            margin-left: 20px;
+
         }
         
         .logo-image i {
@@ -147,6 +143,9 @@
             list-style: none;
             margin-top: 30px;
             z-index: 2;
+            border-radius: 20px;
+            background-color: rgba(179, 111, 243, 0.6);
+            color: white;
         }
         
         .brand-features li {
@@ -487,7 +486,7 @@
         <div class="brand-section">
             <div class="logo-container">
                 <div class="logo-image">
-                    <i class="fas fa-chart-line"></i>
+                    <img src="images/logo.png" alt="COCO Logo" />
                 </div>
                 <div class="logo-text">COCO</div>
             </div>
@@ -753,14 +752,18 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
-        
-                // Manejo de errores no-200 (p.ej. 401)
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({}));
-                    alert(err.message || 'Login fallido.');
-                    return;
-                }
-                
+            // Manejo de errores no-200 (p.ej. 401)
+             if (!response.ok) {
+               const err = await response.json().catch(() => ({}));
+              alert(err.message || 'Login fallido.');
+            return;
+             }
+            const result = await response.json();
+             // Guarda el userId (y lo que necesites) para usarlo en main.html
+             const user = result.user;
+             localStorage.setItem('userId', String(user.user_Id));
+             localStorage.setItem('userName', user.name || '');
+            if (result.success) {                
                 const result = await response.json();
                 // Guarda el userId (y lo que necesites) para usarlo en main.html
                 const user = result.user;

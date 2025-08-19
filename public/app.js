@@ -23,8 +23,9 @@ async function updatePortfolio(userId) {
   
     // pinta el nombre si quieres
     const name = localStorage.getItem('userName') || '';
-    const nameEl = document.querySelector('.user-name');
-    if (nameEl && name) nameEl.textContent = name;
+    document.getElementById("name").textContent = name;
+    //const nameEl = document.querySelector('.user-name');
+    //if (nameEl && name) nameEl.textContent = name;
   
     // carga el total del portafolio con ese userId
     updatePortfolio(userId);
