@@ -4,8 +4,9 @@ import mysql from 'mysql2/promise';
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'n3u3da!',
-    database: 'coco'
+    password: '04062612',
+    database: 'coco',
+    dateStrings: true,
 });
 /*
 db.connect(err => {
