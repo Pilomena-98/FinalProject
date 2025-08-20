@@ -389,100 +389,99 @@
                     <div>
                         <button class="btn btn-primary" onclick="window.location.href='main.html'">
                             <i class="fas fa-arrow-left"></i>
-                            Regresar al Dashboard
+                            Back to Dashboard
                         </button>
                     </div>
                     <div class="current-date" id="current-date"></div>
                 </div>
                 
-                <!-- Contenido de Expense Optimizer -->
+                <!-- Expense Optimizer Content -->
                 <div class="page-content">
                     <div class="expense-optimizer">
                         <div class="dashboard-header">
                             <div>
-                                <h1>Optimizador de Gastos</h1>
-                                <p>Optimiza tus gastos y maximiza tus ahorros</p>
+                                <h1>Expense Optimizer</h1>
+                                <p>Optimize your expenses and maximize your savings</p>
                             </div>
                         </div>
                         
                         <div class="cards-grid">
                             <div class="card">
                                 <div class="card-header">
-                                    <div class="card-title">Ingreso Mensual</div>
+                                    <div class="card-title">Monthly Income</div>
                                     <div class="card-icon icon-green">
                                         <i class="fas fa-money-bill-wave"></i>
                                     </div>
                                 </div>
-                                <input type="number" id="monthly-income" placeholder="Ingresa tu salario" value="6500" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 18px;">
+                                <input type="number" id="monthly-income" placeholder="Enter your salary" value="6500" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 18px;">
                             </div>
                             
                             <div class="card">
                                 <div class="card-header">
-                                    <div class="card-title">Distribución Actual</div>
+                                    <div class="card-title">Current Distribution</div>
                                     <div class="card-icon icon-orange">
                                         <i class="fas fa-chart-pie"></i>
                                     </div>
                                 </div>
                                 <div class="card-value">55/25/20</div>
                                 <div class="card-footer">
-                                    <div>Necesidades: 55%</div>
-                                    <div>Deseos: 25%</div>
-                                    <div>Ahorros: 20%</div>
-                                </div>
+                                    <div>Needs: 55%</div>
+                                <div>Wants: 25%</div>
+                                <div>Savings: 20%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Recommended Distribution</div>
+                            <div class="chart-actions">
+                                <button>Monthly</button>
+                                <button class="active">Annual</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-grid" style="margin-top: 30px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-lightbulb"></i> Savings Recommendations</div>
+                            </div>
+                            <ul style="padding-left: 20px; margin-top: 15px;">
+                                <li style="margin-bottom: 10px;">Reduce dining out expenses by $300/month</li>
+                                <li style="margin-bottom: 10px;">Cancel unused subscriptions ($120/month)</li>
+                                <li style="margin-bottom: 10px;">Optimize phone and TV plans ($150/month)</li>
+                                <li>Consider carpooling ($200/month)</li>
+                            </ul>
+                            <div class="savings-highlight">
+                                <p>With these recommendations, you could additionally save:</p>
+                                <div style="font-size: 32px; font-weight: bold; color: var(--success); margin: 10px 0;">$770/month</div>
+                                <p>Equivalent to $9,240 annually</p>
                             </div>
                         </div>
                         
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <div class="chart-title">Distribución Recomendada</div>
-                                <div class="chart-actions">
-                                    <button>Mensual</button>
-                                    <button class="active">Anual</button>
-                                </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-line"></i> Savings Progress</div>
                             </div>
-                            <div class="chart-wrapper">
-                                <canvas id="expenseChart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="cards-grid" style="margin-top: 30px;">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title"><i class="fas fa-lightbulb"></i> Recomendaciones de Ahorro</div>
-                                </div>
-                                <ul style="padding-left: 20px; margin-top: 15px;">
-                                    <li style="margin-bottom: 10px;">Reduce gastos en comer fuera en $300/mes</li>
-                                    <li style="margin-bottom: 10px;">Cancela suscripciones no utilizadas ($120/mes)</li>
-                                    <li style="margin-bottom: 10px;">Optimiza planes de teléfono y TV ($150/mes)</li>
-                                    <li>Considera transporte compartido ($200/mes)</li>
-                                </ul>
-                                <div class="savings-highlight">
-                                    <p>Con estas recomendaciones, podrías ahorrar adicionalmente:</p>
-                                    <div style="font-size: 32px; font-weight: bold; color: var(--success); margin: 10px 0;">$770/mes</div>
-                                    <p>Equivalente a $9,240 anualmente</p>
-                                </div>
-                            </div>
-                            
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title"><i class="fas fa-chart-line"></i> Progreso de Ahorros</div>
-                                </div>
-                                <div class="chart-wrapper" style="height: 300px;">
-                                    <canvas id="savingsChart"></canvas>
-                                </div>
+                            <div class="chart-wrapper" style="height: 300px;">
+                                <canvas id="savingsChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="app-footer">
-                    <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
-                    <p>© 2025 Todos los derechos reservados</p>
-                </div>
+            </div>
+            
+            <div class="app-footer">
+                <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
+                <p>© 2025 All rights reserved</p>
             </div>
         </div>
     </div>
-
+</div>
     <script>
         // Inicializar gráficos
         function initCharts() {
@@ -491,7 +490,7 @@
             new Chart(expenseCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Necesidades (50%)', 'Deseos (30%)', 'Ahorros (20%)'],
+                    labels: ['Needs (50%)', 'Wants (30%)', 'Savings (20%)'],
                     datasets: [{
                         data: [50, 30, 20],
                         backgroundColor: ['#8E2DE2', '#DD6B20', '#38A169'],
