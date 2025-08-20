@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COCO - Retirement Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2D3748;
+            --secondary: #4A5568;
+            --accent: #e37dec;
+            --light-bg: #f0e7f1;
+            --card-bg: #FFFFFF;
+            --success: #38A169;
+            --warning: #DD6B20;
+            --danger: #E53E3E;
+            --border: #E2E8F0;
+            --text-light: #718096;
+            --text-dark: #1A202C;
+            --pastel-blue: #BEE3F8;
+            --pastel-green: #C6F6D5;
+            --pastel-yellow: #FEFCBF;
+            --purple-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 95vh;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .current-date {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--purple-gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Page Content */
+        .page-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 25px;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .dashboard-header p {
+            color: var(--text-light);
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.08);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .icon-blue {
+            background: var(--pastel-blue);
+            color: #3182CE;
+        }
+        
+        .icon-green {
+            background: var(--pastel-green);
+            color: var(--success);
+        }
+        
+        .icon-orange {
+            background: #FEEBC8;
+            color: var(--warning);
+        }
+        
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .trend.up {
+            color: var(--success);
+        }
+        
+        .trend.down {
+            color: var(--danger);
+        }
+        
+        /* Charts Section */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .chart-actions button {
+            background: var(--light-bg);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+        
+        .chart-actions button:hover {
+            background: var(--border);
+        }
+        
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+        
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 15px;
+            color: var(--text-light);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+        
+        /* Retirement Planner Styles */
+        .retirement-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .form-group input {
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+        
+        .calculate-btn {
+            background: var(--purple-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-end;
+        }
+        
+        .calculate-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                height: auto;
+                border-radius: 0;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .retirement-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <button class="btn btn-primary" onclick="window.location.href='main.html'">
+                        <i class="fas fa-arrow-left"></i>
+                        Regresar al Dashboard
+                    </button>
+                </div>
+                <div class="current-date" id="current-date"></div>
+            </div>
+            
+            <!-- Contenido de Retirement Planner -->
+            <div class="page-content">
+                <div class="dashboard">
+                    <div class="dashboard-header">
+                        <h1>Retirement Planner</h1>
+                        <p>Planifica tu jubilación con estrategias fiscales inteligentes</p>
+                    </div>
+                    
+                    <form id="retirement-form" class="retirement-form">
+                        <div class="form-group">
+                            <label for="current-age">Edad Actual</label>
+                            <input type="number" id="current-age" min="18" max="64" value="35">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="annual-salary">Salario Anual (MXN)</label>
+                            <input type="number" id="annual-salary" min="10000" value="78000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="monthly-contribution">Aporte Mensual (MXN)</label>
+                            <input type="number" id="monthly-contribution" min="100" value="1200">
+                        </div>
+                        
+                        <button type="button" class="calculate-btn" id="calculate-btn">
+                            <i class="fas fa-calculator"></i> Calcular Proyección
+                        </button>
+                    </form>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Estado Actual</div>
+                                <div class="card-icon icon-blue">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">$48,500</div>
+                            <div class="card-footer">
+                                <div>Meta: $500,000</div>
+                                <div id="years-to-retirement">Años hasta la jubilación: 30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Beneficios Fiscales</div>
+                                <div class="card-icon icon-green">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                            </div>
+                            <div class="card-value" id="tax-benefit">$480/año</div>
+                            <div class="card-footer">
+                                <div>Deducción anual: $2,400</div>
+                                <div>Ahorro fiscal: 20%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Proyección de Jubilación</div>
+                            <div class="chart-actions">
+                                <button>5 años</button>
+                                <button>10 años</button>
+                                <button class="active">Edad 65</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="retirementChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="results-container">
+                        <div class="result-card">
+                            <h3><i class="fas fa-piggy-bank"></i> Ahorro Proyectado a los 65</h3>
+                            <div class="result-value" id="projected-savings">$500,000</div>
+                            <p>Basado en un retorno anual del 6.5% y aportes mensuales</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h3><i class="fas fa-file-invoice-dollar"></i> Deducción Fiscal</h3>
+                            <div class="result-value" id="tax-deduction">$2,400/año</div>
+                            <p>Deducible hasta el 10% de tu salario anual o 5 UMA (~$15,000)</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h3><i class="fas fa-hand-holding-usd"></i> Aporte Anual</h3>
+                            <div class="result-value" id="annual-contribution">$14,400</div>
+                            <p>Mensual: $1,200</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="app-footer">
+                <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
+                <p>© 2025 Todos los derechos reservados</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar gráfico
+        function initChart() {
+            const canvas = document.getElementById('retirementChart');
+            
+            // Verificar que el elemento canvas existe
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            window.retirementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Actual', '5 años', '10 años', '15 años', 'Jubilación'],
+                    datasets: [{
+                        label: 'Ahorros acumulados',
+                        data: [48500, 125000, 250000, 375000, 500000],
+                        backgroundColor: '#8E2DE2',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { 
+                                callback: function(value) { 
+                                    return '$' + value.toLocaleString(); 
+                                } 
+                            }
+                        },
+                        x: { 
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Calcular proyección
+        function calculateProjection() {
+            const currentAge = parseInt(document.getElementById('current-age').value) || 35;
+            const annualSalary = parseFloat(document.getElementById('annual-salary').value) || 78000;
+            const monthlyContribution = parseFloat(document.getElementById('monthly-contribution').value) || 1200;
+            
+            // Años hasta la jubilación
+            const yearsToRetirement = 65 - currentAge;
+            document.getElementById('years-to-retirement').textContent = `Años hasta la jubilación: ${yearsToRetirement}`;
+            
+            // Contribución anual
+            const annualContribution = monthlyContribution * 12;
+            document.getElementById('annual-contribution').textContent = `$${annualContribution.toLocaleString('es-MX')}`;
+            
+            // Beneficio fiscal (supuesto: 20% de deducción)
+            const taxDeduction = Math.min(annualContribution, annualSalary * 0.1) * 0.2;
+            document.getElementById('tax-benefit').textContent = `$${taxDeduction.toLocaleString('es-MX')}/año`;
+            document.getElementById('tax-deduction').textContent = `$${Math.min(annualContribution, annualSalary * 0.1).toLocaleString('es-MX')}/año`;
+            
+            // Proyección de ahorros
+            const currentSavings = 48500;
+            const annualReturn = 0.065; // 6.5%
+            const projection = [currentSavings];
+            
+            let accumulated = currentSavings;
+            for (let year = 1; year <= yearsToRetirement; year++) {
+                accumulated = (accumulated + annualContribution) * (1 + annualReturn);
+                if (year === 5) projection.push(accumulated);
+                if (year === 10) projection.push(accumulated);
+                if (year === 15) projection.push(accumulated);
+            }
+            projection.push(accumulated);
+            
+            // Actualizar gráfico
+            if (window.retirementChart) {
+                window.retirementChart.data.datasets[0].data = projection.map(val => Math.round(val));
+                window.retirementChart.update();
+            }
+            
+            // Actualizar ahorro proyectado
+            document.getElementById('projected-savings').textContent = `$${Math.round(accumulated).toLocaleString('es-MX')}`;
+        }
+        
+        // Fecha actual
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('es-MX', options);
+        }
+        
+        // Inicializar - asegurar que el DOM está cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            setCurrentDate();
+            initChart();
+            calculateProjection();
+            
+            // Event listeners
+            document.getElementById('calculate-btn').addEventListener('click', calculateProjection);
+            document.getElementById('current-age').addEventListener('change', calculateProjection);
+            document.getElementById('annual-salary').addEventListener('change', calculateProjection);
+            document.getElementById('monthly-contribution').addEventListener('change', calculateProjection);
+        });
+    </script>
+</body>
+</html>
