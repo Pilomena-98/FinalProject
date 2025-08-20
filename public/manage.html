@@ -45,7 +45,7 @@
         
         .admin-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             background: var(--card-bg);
             border-radius: 25px;
             overflow: hidden;
@@ -95,6 +95,19 @@
             border-radius: 12px;
             box-shadow: var(--shadow);
             text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-card.active {
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
         }
         
         .feature-icon {
@@ -108,9 +121,17 @@
             margin: 0 auto 15px;
         }
         
+        .feature-card.active .feature-icon {
+            background: var(--accent);
+        }
+        
         .feature-icon i {
             font-size: 24px;
             color: var(--accent);
+        }
+        
+        .feature-card.active .feature-icon i {
+            color: white;
         }
         
         .feature-title {
@@ -119,9 +140,53 @@
             color: var(--primary);
         }
         
+        .feature-card.active .feature-title {
+            color: var(--accent);
+        }
+        
         .feature-description {
             color: var(--text-light);
             font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .dashboard-container {
+            margin-top: 30px;
+            display: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 600px;
+            background: #f1f5f9;
+            position: relative;
+        }
+        
+        .dashboard-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .dashboard-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        
+        .dashboard-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-light);
+            font-size: 18px;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .dashboard-placeholder i {
+            font-size: 48px;
+            color: var(--accent);
         }
         
         .logout-btn {
@@ -136,6 +201,7 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 5px 15px rgba(229, 62, 62, 0.3);
+            margin-top: 30px;
         }
         
         .logout-btn:hover {
@@ -153,7 +219,18 @@
             border-top: 1px solid var(--border);
         }
         
-        @media (max-width: 768px) {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 1024px) {
             .admin-container {
                 padding: 30px 20px;
             }
@@ -162,8 +239,24 @@
                 padding: 20px;
             }
             
+            .dashboard-container {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 768px) {
             .admin-features {
                 grid-template-columns: 1fr;
+            }
+            
+            .dashboard-container {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dashboard-container {
+                height: 300px;
             }
         }
     </style>
@@ -177,34 +270,34 @@
         
         <div class="admin-content">
             <div class="admin-welcome">
-                <p>Welcome, <strong id="admin-name">Administrator</strong>!</p>
+                <p>Welcome, <strong id="admin-name">Diego</strong>!</p>
                 <p>You have full access to manage the COCO platform.</p>
             </div>
             
             <div class="admin-features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="feature-title">User Management</h3>
-                    <p class="feature-description">View and manage all registered users</p>
-                </div>
-                
-                <div class="feature-card">
+                <div class="feature-card" id="finance-dashboard">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 class="feature-title">Analytics</h3>
-                    <p class="feature-description">Access platform usage statistics</p>
+                    <h3 class="feature-title">Dashboard Finance Admin</h3>
+                    <p class="feature-description">Access financial analytics and performance metrics</p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature-card" id="users-dashboard">
                     <div class="feature-icon">
-                        <i class="fas fa-cog"></i>
+                        <i class="fas fa-users-cog"></i>
                     </div>
-                    <h3 class="feature-title">Settings</h3>
-                    <p class="feature-description">Configure platform settings</p>
+                    <h3 class="feature-title">Dashboard Users Admin</h3>
+                    <p class="feature-description">Manage user accounts and access permissions</p>
                 </div>
+            </div>
+            
+            <div class="dashboard-container" id="dashboard-display">
+                <div class="dashboard-placeholder" id="dashboard-placeholder">
+                    <i class="fas fa-chart-bar"></i>
+                    <p>Select a dashboard to view</p>
+                </div>
+                <iframe class="dashboard-iframe" id="dashboard-iframe" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
             </div>
             
             <button class="logout-btn" id="logout-btn">
@@ -218,12 +311,24 @@
     </div>
 
     <script>
+        // URLs de los dashboards (formato corregido)
+        const DASHBOARD_URLS = {
+            finance: "https://lookerstudio.google.com/embed/reporting/95694340-a605-49b6-832b-a645e1b197ea/page/p_21r8lpfgvd",
+            users: "https://lookerstudio.google.com/embed/reporting/95694340-a605-49b6-832b-a645e1b197ea/page/p_eeqb7ffgvd"
+        };
+
+        // Variables para el estado actual
+        let currentDashboard = null;
+        const dashboardDisplay = document.getElementById('dashboard-display');
+        const dashboardIframe = document.getElementById('dashboard-iframe');
+        const dashboardPlaceholder = document.getElementById('dashboard-placeholder');
+        const financeCard = document.getElementById('finance-dashboard');
+        const usersCard = document.getElementById('users-dashboard');
+
         // Cargar nombre de administrador
         document.addEventListener('DOMContentLoaded', function() {
-            const userName = localStorage.getItem('userName');
-            if (userName) {
-                document.getElementById('admin-name').textContent = userName;
-            }
+            const userName = localStorage.getItem('userName') || 'Diego';
+            document.getElementById('admin-name').textContent = userName;
             
             // Manejar logout
             document.getElementById('logout-btn').addEventListener('click', function() {
@@ -235,7 +340,51 @@
                 // Redirigir al login
                 window.location.href = 'index.html';
             });
+            
+            // Manejar clic en Dashboard Finance Admin
+            financeCard.addEventListener('click', function() {
+                toggleDashboard('finance', DASHBOARD_URLS.finance);
+            });
+            
+            // Manejar clic en Dashboard Users Admin
+            usersCard.addEventListener('click', function() {
+                toggleDashboard('users', DASHBOARD_URLS.users);
+            });
         });
+
+        // Función para alternar entre dashboards
+        function toggleDashboard(dashboardType, url) {
+            if (currentDashboard === dashboardType) {
+                // Si ya está activo, ocultar el dashboard
+                dashboardDisplay.classList.remove('active');
+                financeCard.classList.remove('active');
+                usersCard.classList.remove('active');
+                dashboardPlaceholder.style.display = 'flex';
+                dashboardIframe.style.display = 'none';
+                currentDashboard = null;
+            } else {
+                // Mostrar el dashboard seleccionado
+                dashboardIframe.src = url;
+                dashboardDisplay.classList.add('active');
+                dashboardPlaceholder.style.display = 'none';
+                dashboardIframe.style.display = 'block';
+                
+                // Actualizar estado activo de las tarjetas
+                financeCard.classList.remove('active');
+                usersCard.classList.remove('active');
+                
+                if (dashboardType === 'finance') {
+                    financeCard.classList.add('active');
+                } else {
+                    usersCard.classList.add('active');
+                }
+                
+                currentDashboard = dashboardType;
+                
+                // Hacer scroll suave hacia el dashboard
+                dashboardDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
     </script>
 </body>
 </html>
