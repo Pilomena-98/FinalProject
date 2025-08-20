@@ -27,7 +27,17 @@ app.post('/api/login', async (req, res) => {
     );
 
     if (results.length > 0) {
-      res.json({ success: true, user: results[0] });
+            const user = results[0];
+      
+      // ADMIN
+      const isAdmin = (email === 'cocodev@sasalele.ejp' && password === 'sal3sal3!');
+      
+      res.json({ 
+        success: true, 
+        user: user,
+        isAdmin: isAdmin
+      });
+
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
