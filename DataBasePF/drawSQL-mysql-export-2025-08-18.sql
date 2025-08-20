@@ -20,7 +20,8 @@ CREATE TABLE `trades`(
     `time` TIME NOT NULL,
     `type` VARCHAR(255) NOT NULL,
     `quantity` INT NOT NULL,
-    `stock_Id` INT UNSIGNED NOT NULL
+    `stock_Id` INT UNSIGNED NOT NULL,
+    `amount` DECIMAL(8, 2) NOT NULL
 );
 CREATE TABLE `market_prices`(
     `price_Id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
