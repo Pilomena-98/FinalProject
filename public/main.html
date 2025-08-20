@@ -892,23 +892,32 @@
             </div>
             <div class="form-group">
                 <label for="asset-name">Asset Name</label>
-                <input type="text" id="asset-name" placeholder="e.g. Apple Inc.">
+                <select id="asset-name">
+                    <option value="">Select an asset</option>
+                    <option value="Apple Inc.">Apple Inc. (AAPL)</option>
+                    <option value="Amazon.com, Inc.">Amazon.com, Inc. (AMZN)</option>
+                    <option value="Bank of America Corp.">Bank of America Corp. (BAC)</option>
+                    <option value="Alphabet Inc.">Alphabet Inc. (GOOGL)</option>
+                    <option value="JPMorgan Chase & Co.">JPMorgan Chase & Co. (JPM)</option>
+                    <option value="Meta Platforms, Inc.">Meta Platforms, Inc. (META)</option>
+                    <option value="Microsoft Corp.">Microsoft Corp. (MSFT)</option>
+                    <option value="Netflix, Inc.">Netflix, Inc. (NFLX)</option>
+                    <option value="NVIDIA Corp.">NVIDIA Corp. (NVDA)</option>
+                    <option value="Tesla, Inc.">Tesla, Inc. (TSLA)</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="asset-type">Asset Type</label>
+                <label for="asset-type">Transaction Type</label>
                 <select id="asset-type">
-                    <option value="stock">Stock</option>
-                    <option value="bond">Bond</option>
-                    <option value="etf">ETF</option>
-                    <option value="crypto">Cryptocurrency</option>
-                    <option value="realestate">Real Estate</option>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="asset-quantity">Quantity</label>
                 <input type="number" id="asset-quantity" placeholder="e.g. 10">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="price-field">
                 <label for="asset-price">Price per Unit ($)</label>
                 <input type="number" id="asset-price" placeholder="e.g. 150.25">
             </div>
@@ -1096,10 +1105,13 @@
                 
                 // Reset form
                 document.getElementById('asset-name').value = '';
-                document.getElementById('asset-type').value = 'stock';
+                document.getElementById('asset-type').value = 'buy';
                 document.getElementById('asset-quantity').value = '';
                 document.getElementById('asset-price').value = '';
                 document.getElementById('asset-purchase-date').value = '';
+                
+                // Trigger change to update price field visibility
+                document.getElementById('asset-type').dispatchEvent(new Event('change'));
             }
             
             modal.style.display = 'flex';
@@ -1107,17 +1119,26 @@
         
         function saveAsset() {
             const name = document.getElementById('asset-name').value;
-            const type = document.getElementById('asset-type').value;
+            const transactionType = document.getElementById('asset-type').value;
             const quantity = parseFloat(document.getElementById('asset-quantity').value);
-            const price = parseFloat(document.getElementById('asset-price').value);
+            const price = parseFloat(document.getElementById('asset-price').value) || 0;
             const purchaseDate = document.getElementById('asset-purchase-date').value;
             const saveBtn = document.getElementById('save-asset-btn');
             const assetId = saveBtn.getAttribute('data-id');
             
-            if (!name || !quantity || !price || !purchaseDate) {
-                alert('Please fill in all fields');
+            if (!name || !quantity || !purchaseDate) {
+                alert('Please fill in all required fields');
                 return;
             }
+            
+            if (transactionType === 'sell' && !price) {
+                alert('Please enter price for sell transactions');
+                return;
+            }
+            
+            // For buy transactions, we need to get the current price from an API
+            // For demo purposes, we'll use a placeholder value
+            const finalPrice = transactionType === 'buy' ? 100 : price;
             
             if (assetId) {
                 // Update existing asset
@@ -1126,9 +1147,9 @@
                     portfolio[index] = {
                         ...portfolio[index],
                         name,
-                        type,
+                        type: 'stock', // Default to stock for now
                         quantity,
-                        price,
+                        price: finalPrice,
                         purchaseDate
                     };
                 }
@@ -1137,9 +1158,9 @@
                 const newAsset = {
                     id: portfolio.length > 0 ? Math.max(...portfolio.map(a => a.id)) + 1 : 1,
                     name,
-                    type,
+                    type: 'stock', // Default to stock for now
                     quantity,
-                    price,
+                    price: finalPrice,
                     purchaseDate
                 };
                 portfolio.push(newAsset);
@@ -1188,6 +1209,16 @@
             const modal = document.getElementById('asset-modal');
             if (e.target === modal) {
                 closeAssetModal();
+            }
+        });
+
+        // Toggle price field based on transaction type
+        document.getElementById('asset-type').addEventListener('change', function() {
+            const priceField = document.getElementById('price-field');
+            if (this.value === 'sell') {
+                priceField.style.display = 'block';
+            } else {
+                priceField.style.display = 'none';
             }
         });
 

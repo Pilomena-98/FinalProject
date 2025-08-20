@@ -27,12 +27,21 @@ app.post('/api/login', async (req, res) => {
       [email]
     );
 
+    
     if (!results.length) {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
       //res.json({ success: true, user: results[0] });
     } 
-
-    const user = results[0];
+       const user = results[0];
+      // ADMIN
+      const isAdmin = (email === 'cocodev@sasalele.ejp' && password === 'sal3sal3!');
+      if(isAdmin){
+      res.json({ 
+        success: true, 
+        user: user,
+        isAdmin: isAdmin
+      });
+    }
 
     if (!user.passwords.startsWith('$2b$')) {
     // contraseña vieja sin hash
