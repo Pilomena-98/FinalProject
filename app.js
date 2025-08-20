@@ -110,12 +110,44 @@ app.get('/api/portfolio/:userId', async (req, res) => {
       `, [userId]);
 
       const total = rows?.[0]?.portfolio_total ?? 0;
-      res.json({ total });
+
+      const [gainRows] = await db.query(`
+        SELECT get_portafolio_profit(?) AS "Portfolio_Profit";
+      `, [userId]);
+      const gain = gainRows?.[0]?.Portfolio_Profit ?? 0;
+
+      res.json({ total, gain});
     } catch (e) {
       console.error(e);
       res.status(500).json({ error: 'Error al calcular el valor del portafolio' });
     }
   });
+
+// 🔹 Historial del portafolio por usuario
+app.get('/api/portfolio-history/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    // CALL devuelve un arreglo de result sets; el primero es el SELECT del SP
+    const [resultSets] = await db.query('CALL get_portafolio_history(?);', [userId]);
+    const rows = Array.isArray(resultSets) ? resultSets[0] : resultSets;
+
+    // Normalizamos tipos: fecha como string ISO (yyyy-mm-dd) y valor como número
+    const data = rows.map(r => ({
+      date:
+        r.price_Date instanceof Date
+          ? r.price_Date.toISOString().slice(0, 10)
+          : String(r.price_Date),              // si ya viene como string
+      value: Number(r.portafolio_value) || 0
+    }));
+
+    res.json(data);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'No se pudo obtener el historial' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`✅ Server is running on http://localhost:${port}`);
