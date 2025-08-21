@@ -41,24 +41,24 @@ app.post('/api/login', async (req, res) => {
         user: user,
         isAdmin: isAdmin
       });
-    }
+    }else {
 
-    if (!user.passwords.startsWith('$2b$')) {
-    // contraseña vieja sin hash
-    if (password !== user.passwords) {
-      return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
-    }
-    // re-hash y actualiza en DB
-    const newHash = await bcrypt.hash(password, 10);
-    await db.query('UPDATE user SET passwords=? WHERE user_Id=?', [newHash, user.user_Id]);
-    } else {
-    const ok = await bcrypt.compare(password, user.passwords);
-    if (!ok) return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
-    }
+      if (!user.passwords.startsWith('$2b$')) {
+      // contraseña vieja sin hash
+      if (password !== user.passwords) {
+        return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+      }
+      // re-hash y actualiza en DB
+      const newHash = await bcrypt.hash(password, 10);
+      await db.query('UPDATE user SET passwords=? WHERE user_Id=?', [newHash, user.user_Id]);
+      } else {
+      const ok = await bcrypt.compare(password, user.passwords);
+      if (!ok) return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+      }
 
-    delete user.passwords;
-    res.json({ success: true, user });
-
+      delete user.passwords;
+      res.json({ success: true, user });
+    }
   } catch (err) {
     console.error('Database error:', err);
     res.status(500).json({ success: false, message: 'Database error' });
@@ -146,6 +146,168 @@ app.get('/api/portfolio-history/:userId', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'No se pudo obtener el historial' });
+  }
+});
+
+// 🔹 Acciones actuales del usuario
+app.get('/api/current-shares/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [resultSets] = await db.query('CALL get_current_shares(?);', [userId]);
+    const rows = Array.isArray(resultSets) ? resultSets[0] : resultSets;
+
+    const data = rows.map(r => ({
+      ticker: r.ticker,
+      current_shares: Number(r.current_shares) || 0
+    }));
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'No se pudo obtener acciones actuales' });
+  }
+});
+
+// 🔹 Resumen del portafolio del usuario
+app.get('/api/portfolio-summary/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [resultSets] = await db.query('CALL get_portafolio_summary(?);', [userId]);
+    const rows = Array.isArray(resultSets) ? resultSets[0] : resultSets;
+
+    // Normalizamos claves y nos aseguramos de que los numéricos sean Number
+    const data = rows.map(r => ({
+      ticker: r.Ticker,
+      enterprise: r.Enterprise,
+      currentShares: Number(r['Current Shares']) || 0,
+      meanCost: Number(r['Mean Cost']) || 0,
+      currentPrice: Number(r['Current Price']) || 0,
+      marketValue: Number(r['Market Value']) || 0,
+      profitLoss: Number(r['Profit Loss']) || 0,
+      profitLossPct: Number(r['% Profit Loss']) || 0
+    }));
+
+    return res.json({ rows: data });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'No se pudo obtener el resumen' });
+  }
+});
+
+// 🔹 Precio de una acción específica
+app.get('/api/stock-price/:ticker', async (req, res) => {
+  const { ticker } = req.params;
+
+  try {
+    const [rows] = await db.query(`
+      SELECT mp.open, mp.price_Date
+      FROM market_prices mp
+      JOIN stock s ON s.stock_Id = mp.stock_Id
+      WHERE s.ticker = ?
+      ORDER BY mp.price_Date DESC
+      LIMIT 1
+    `, [ticker]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'No se encontró precio para el ticker ' + ticker });
+    }
+
+    return res.json(rows[0]); // { price: 123.45, price_date: '2025-08-20' }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Error obteniendo precio de mercado' });
+  }
+});
+
+// 🔹 insertar trades
+app.post('/api/trades', async (req, res) => {
+  try {
+    const { userId, ticker, type, quantity } = req.body;
+
+    if (!userId || !ticker || !type || !quantity) {
+      return res.status(400).json({ error: 'Faltan campos: userId, ticker, type, quantity' });
+    }
+    const qty = parseInt(quantity, 10);
+    const typeUp = String(type).toLowerCase();
+    if (!Number.isFinite(qty) || qty <= 0) {
+      return res.status(400).json({ error: 'Cantidad inválida' });
+    }
+    if (!['buy', 'sell'].includes(typeUp)) {
+      return res.status(400).json({ error: 'Tipo inválido (usa BUY o SELL)' });
+    }
+
+    // 1) stock_Id por ticker
+    const [stockRows] = await db.query(
+      'SELECT stock_Id FROM stock WHERE ticker = ? LIMIT 1',
+      [ticker]
+    );
+    if (!stockRows.length) {
+      return res.status(404).json({ error: `No existe el ticker ${ticker}` });
+    }
+    const stockId = stockRows[0].stock_Id;
+
+    // 2) Si SELL, validar acciones netas disponibles
+    if (typeUp === 'sell') {
+      const [posRows] = await db.query(
+        `SELECT COALESCE(SUM(CASE WHEN type='buy' THEN quantity
+                                  WHEN type='sell' THEN -quantity
+                                  ELSE 0 END), 0) AS net_shares
+         FROM trades
+         WHERE user_Id = ? AND stock_Id = ?`,
+        [userId, stockId]
+      );
+      const netShares = Number(posRows[0]?.net_shares || 0);
+      if (qty > netShares) {
+        return res.status(400).json({
+          error: `No tienes suficientes acciones para vender. Disponibles: ${netShares}`
+        });
+      }
+    }
+
+    // 3) Obtener último precio (usa la columna correcta; aquí 'close')
+    const [priceRows] = await db.query(
+      `SELECT mp.open AS price
+       FROM market_prices mp
+       WHERE mp.stock_Id = ?
+       ORDER BY mp.price_Date DESC
+       LIMIT 1`,
+      [stockId]
+    );
+    if (!priceRows.length) {
+      return res.status(400).json({ error: 'No hay precio reciente para este ticker' });
+    }
+    const price = Number(priceRows[0].price);
+    if (!Number.isFinite(price)) {
+      return res.status(400).json({ error: 'Precio inválido' });
+    }
+
+    // 4) Calcular amount (positivo; el tipo indica compra/venta)
+    const amount = +(price * qty).toFixed(2);
+
+    // 5) Insertar trade con amount
+    const [ins] = await db.query(
+      `INSERT INTO trades (trade_Id, user_Id, date, time, type, quantity, stock_Id, amount)
+       VALUES (UUID(), ?, CURDATE(), CURTIME(), ?, ?, ?, ?)`,
+      [userId, typeUp, qty, stockId, amount]
+    );
+
+    return res.json({
+      success: true,
+      tradeId: ins.insertId ?? null,
+      userId,
+      ticker,
+      type: typeUp,
+      quantity: qty,
+      price,
+      amount
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: 'No se pudo guardar el trade' });
   }
 });
 
