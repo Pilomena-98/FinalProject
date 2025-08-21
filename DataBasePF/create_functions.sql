@@ -32,6 +32,7 @@ FROM (
     ON max_p.stock_Id = s.stock_Id;
 
 -- Crear procedimiento almacenado para obtener el resumen del portafolio de un usuario
+/*
 DELIMITER $$
 
 CREATE PROCEDURE get_portafolio_summary(IN user_id BIGINT)
@@ -69,6 +70,75 @@ BEGIN
 		) tr
 	ON cs.ticker = tr.ticker JOIN current_prices cp ON tr.ticker = cp.ticker
 	WHERE cs.current_shares > 0;
+END$$
+
+DELIMITER ;
+*/
+
+DELIMITER $$
+
+CREATE PROCEDURE get_portafolio_summary(IN user_id BIGINT)
+BEGIN
+	SELECT
+    cs.stock_Name AS "Enterprise",
+    ROUND(IFNULL(rp.realized_profit, 0), 2) AS "Realized Profit Loss",
+    cs.current_shares AS "Current Shares",
+    CASE 
+        WHEN cs.current_shares > 0 
+        THEN ROUND((total_amount_purchased - total_amount_sold) / cs.current_shares, 2)
+        ELSE NULL
+    END AS "Mean Cost",
+    cp.close AS "Current Price",
+    cs.current_shares * cp.close AS "Market Value",
+    CASE 
+        WHEN cs.current_shares > 0 
+        THEN (cp.close * cs.current_shares) - (total_amount_purchased - total_amount_sold)
+        ELSE 0
+    END AS "Unrealized Profit Loss",
+    CASE 
+        WHEN cs.current_shares > 0 
+        THEN ROUND(((cp.close / ((total_amount_purchased - total_amount_sold) / cs.current_shares)) - 1) * 100, 2)
+        ELSE NULL
+    END AS "% Unrealized Profit Loss"
+	FROM
+		(
+			SELECT
+				s.stock_Id,
+				s.ticker,
+				s.stock_Name,
+				SUM(CASE WHEN t.type = 'buy' THEN t.quantity
+						 WHEN t.type = 'sell' THEN -t.quantity
+						 ELSE 0 END) AS current_shares,
+				SUM(CASE WHEN t.type = 'buy' THEN amount ELSE 0 END) AS total_amount_purchased,
+				SUM(CASE WHEN t.type = 'sell' THEN amount ELSE 0 END) AS total_amount_sold
+			FROM trades t
+			JOIN stock s ON t.stock_Id = s.stock_Id
+			WHERE t.user_id = user_id -- id a buscar
+			GROUP BY s.stock_Id, s.ticker, s.stock_Name
+		) cs
+	LEFT JOIN current_prices cp ON cs.ticker = cp.ticker
+	LEFT JOIN (
+		SELECT
+			s.stock_Id,
+			SUM(
+				CASE
+					WHEN t.type = 'sell' THEN t.amount - (t.quantity * (
+						SELECT SUM(tt.amount) / SUM(tt.quantity)
+						FROM trades tt
+						WHERE tt.stock_Id = t.stock_Id
+						  AND tt.user_id = t.user_id
+						  AND tt.date <= t.date
+						  AND tt.type = 'buy'
+					))
+					ELSE 0
+				END
+			) AS realized_profit
+		FROM trades t
+		JOIN stock s ON t.stock_Id = s.stock_Id
+		WHERE t.user_id = user_id -- id a buscar
+		GROUP BY s.stock_Id
+	) rp
+	ON rp.stock_Id = cs.stock_Id;
 END$$
 
 DELIMITER ;
@@ -112,10 +182,10 @@ END$$
 
 DELIMITER ;
 
--- Crear función para obtener la ganancia total del portafolio de un usuario
+-- Crear función para obtener la ganancia NO REALIZADA total del portafolio de un usuario
 DELIMITER $$
 
-CREATE FUNCTION get_portafolio_profit(user_id BIGINT)
+CREATE FUNCTION get_portafolio_future_profit(user_id BIGINT)
 RETURNS DECIMAL(8,2)
 DETERMINISTIC
 BEGIN
@@ -146,6 +216,36 @@ BEGIN
 		) tr
 	ON cs.ticker = tr.ticker JOIN current_prices cp ON tr.ticker = cp.ticker
 	WHERE cs.current_shares > 0;
+	RETURN portafolio_profit;
+END$$
+
+DELIMITER ;
+
+-- Crear función para obtener la ganancia REALIZADA total del portafolio de un usuario
+DELIMITER $$
+
+CREATE FUNCTION get_portafolio_past_profit(user_id BIGINT)
+RETURNS DECIMAL(8,2)
+DETERMINISTIC
+BEGIN
+    DECLARE portafolio_profit DECIMAL(8,2);
+    SELECT 
+    ROUND(SUM(
+        CASE
+            WHEN t.type = 'sell' THEN 
+                t.amount - (t.quantity * (
+                    SELECT SUM(tt.amount) / SUM(tt.quantity)
+                    FROM trades tt
+                    WHERE tt.stock_Id = t.stock_Id
+                      AND tt.user_id = t.user_id
+                      AND tt.date <= t.date
+                      AND tt.type = 'buy'
+                ))
+            ELSE 0
+        END
+    ), 2) INTO portafolio_profit
+	FROM trades t
+	WHERE t.user_id = user_id; -- Reemplaza con el ID de usuario
 	RETURN portafolio_profit;
 END$$
 
