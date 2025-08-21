@@ -10,11 +10,14 @@ CALL get_portafolio_summary(1402944639);
 -- Valor total del portafolio del usuario
 SELECT get_portafolio_value(1402944639) AS "Total Portafolio Value";
 
--- Ganancia total del portafolio del usuario
-SELECT get_portafolio_profit(1402944639) AS "Portafolio Profit";
+-- Ganancia total NO REALIZADA del portafolio del usuario
+SELECT get_portafolio_future_profit(1402944639) AS "Portafolio Profit";
 
--- Historial de compra/venta de acciones del usuario
-CALL get_purchase_sale_history(1402944639, "buy");
+-- Ganancia total REALIZADA del portafolio del usuario
+SELECT get_portafolio_past_profit(1402944639) AS "Portafolio Profit";
 
 -- Hisotrial del valor del portafolio del usuario
 CALL get_portafolio_history(1402944639);
+
+-- Historial de compra/venta de acciones del usuario
+CALL get_purchase_sale_history(1402944639, "buy");
