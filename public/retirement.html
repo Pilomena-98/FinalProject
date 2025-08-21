@@ -372,78 +372,78 @@
                 <div>
                     <button class="btn btn-primary" onclick="window.location.href='main.html'">
                         <i class="fas fa-arrow-left"></i>
-                        Regresar al Dashboard
+                        Back to Dashboard
                     </button>
                 </div>
                 <div class="current-date" id="current-date"></div>
             </div>
             
-            <!-- Contenido de Retirement Planner -->
+            <!-- Retirement Planner Content -->
             <div class="page-content">
                 <div class="dashboard">
                     <div class="dashboard-header">
                         <h1>Retirement Planner</h1>
-                        <p>Planifica tu jubilación con estrategias fiscales inteligentes</p>
+                        <p>Plan your retirement with smart tax strategies</p>
                     </div>
                     
                     <form id="retirement-form" class="retirement-form">
                         <div class="form-group">
-                            <label for="current-age">Edad Actual</label>
+                            <label for="current-age">Current Age</label>
                             <input type="number" id="current-age" min="18" max="64" value="35">
                         </div>
                         
                         <div class="form-group">
-                            <label for="annual-salary">Salario Anual (MXN)</label>
+                            <label for="annual-salary">Annual Salary (MXN)</label>
                             <input type="number" id="annual-salary" min="10000" value="78000">
                         </div>
                         
                         <div class="form-group">
-                            <label for="monthly-contribution">Aporte Mensual (MXN)</label>
+                            <label for="monthly-contribution">Monthly Contribution (MXN)</label>
                             <input type="number" id="monthly-contribution" min="100" value="1200">
                         </div>
                         
                         <button type="button" class="calculate-btn" id="calculate-btn">
-                            <i class="fas fa-calculator"></i> Calcular Proyección
+                            <i class="fas fa-calculator"></i> Calculate Projection
                         </button>
                     </form>
                     
                     <div class="cards-grid">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Estado Actual</div>
+                                <div class="card-title">Current Status</div>
                                 <div class="card-icon icon-blue">
                                     <i class="fas fa-chart-line"></i>
                                 </div>
                             </div>
                             <div class="card-value">$48,500</div>
                             <div class="card-footer">
-                                <div>Meta: $500,000</div>
-                                <div id="years-to-retirement">Años hasta la jubilación: 30</div>
+                                <div>Goal: $500,000</div>
+                                <div id="years-to-retirement">Years to Retirement: 30</div>
                             </div>
                         </div>
                         
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Beneficios Fiscales</div>
+                                <div class="card-title">Tax Benefits</div>
                                 <div class="card-icon icon-green">
                                     <i class="fas fa-percent"></i>
                                 </div>
                             </div>
-                            <div class="card-value" id="tax-benefit">$480/año</div>
+                            <div class="card-value" id="tax-benefit">$480/year</div>
                             <div class="card-footer">
-                                <div>Deducción anual: $2,400</div>
-                                <div>Ahorro fiscal: 20%</div>
+                                <div>Annual Deduction: $2,400</div>
+                                <div>Tax Savings: 20%</div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="chart-container">
                         <div class="chart-header">
-                            <div class="chart-title">Proyección de Jubilación</div>
+                            <div class="chart-title">Retirement Projection</div>
                             <div class="chart-actions">
-                                <button>5 años</button>
-                                <button>10 años</button>
-                                <button class="active">Edad 65</button>
+                                <button>5 years</button>
+                                <button>10 years</button>
+                                <button class="active">Age 65</button>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -453,21 +453,21 @@
                     
                     <div class="results-container">
                         <div class="result-card">
-                            <h3><i class="fas fa-piggy-bank"></i> Ahorro Proyectado a los 65</h3>
+                            <h3><i class="fas fa-piggy-bank"></i> Projected Savings at 65</h3>
                             <div class="result-value" id="projected-savings">$500,000</div>
-                            <p>Basado en un retorno anual del 6.5% y aportes mensuales</p>
+                            <p>Based on an annual return of 6.5% and monthly contributions</p>
                         </div>
                         
                         <div class="result-card">
-                            <h3><i class="fas fa-file-invoice-dollar"></i> Deducción Fiscal</h3>
-                            <div class="result-value" id="tax-deduction">$2,400/año</div>
-                            <p>Deducible hasta el 10% de tu salario anual o 5 UMA (~$15,000)</p>
+                            <h3><i class="fas fa-file-invoice-dollar"></i> Tax Deduction</h3>
+                            <div class="result-value" id="tax-deduction">$2,400/year</div>
+                            <p>Deductible up to 10% of your annual salary or 5 UMA (~$15,000)</p>
                         </div>
                         
                         <div class="result-card">
-                            <h3><i class="fas fa-hand-holding-usd"></i> Aporte Anual</h3>
+                            <h3><i class="fas fa-hand-holding-usd"></i> Annual Contribution</h3>
                             <div class="result-value" id="annual-contribution">$14,400</div>
-                            <p>Mensual: $1,200</p>
+                            <p>Monthly: $1,200</p>
                         </div>
                     </div>
                 </div>
@@ -475,10 +475,11 @@
             
             <div class="app-footer">
                 <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
-                <p>© 2025 Todos los derechos reservados</p>
+                <p>© 2025 All rights reserved</p>
             </div>
         </div>
     </div>
+    
 
     <script>
         // Inicializar gráfico
