@@ -623,6 +623,44 @@
             border-top: 1px solid var(--border);
             background: var(--card-bg);
         }
+        .embed-card{
+            width:100%;
+            max-width:1280px;       /* evita que se estire demasiado en monitores enormes */
+            margin: 0 auto 24px;
+            background:#fff;        /* o var(--card) */
+            border:1px solid #e5e7eb;
+            border-radius:16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.06);
+            overflow:hidden;
+        }
+
+        .embed-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:12px 16px;
+            border-bottom:1px solid #f1f5f9;
+        }
+
+        .embed-actions{ display:flex; gap:8px; }
+        .btn-ghost{
+            padding:6px 10px; font-size:14px; border-radius:8px;
+            border:1px solid #e5e7eb; background:#f8fafc; cursor:pointer; text-decoration:none; color:#0f172a;
+        }
+        .btn-ghost:hover{ background:#eef2f7; }
+
+        .embed-ratio{
+            position:relative;
+            width:100%;
+            padding-top:56.25%;     /* 16:9. Cambia a 62.5% para 16:10 si te gusta más alto */
+        }
+
+        .embed-ratio iframe{
+            position:absolute; inset:0;
+            width:100%; height:100%;
+            border:0; border-bottom-left-radius:16px; border-bottom-right-radius:16px;
+        }
+
         
         /* Responsive */
         @media (max-width: 1200px) {
@@ -775,6 +813,27 @@
                             </div>
                         </div>
                         
+                        <div class="embed-card">
+                            <div class="embed-header">
+                                <h3>Stock performance</h3>
+                                <div class="embed-actions">
+                                <button id="looker-fullscreen" class="btn-ghost" aria-label="Pantalla completa">⤢</button>
+                                <a class="btn-ghost" href="https://lookerstudio.google.com/reporting/95694340-a605-49b6-832b-a645e1b197ea/page/VQ7UF" target="_blank" rel="noopener">Open</a>
+                                </div>
+                            </div>
+
+                            <div class="embed-ratio">
+                                <iframe
+                                id="looker-iframe"
+                                title="Reporte Looker Studio"
+                                src="https://lookerstudio.google.com/embed/reporting/95694340-a605-49b6-832b-a645e1b197ea/page/VQ7UF"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                                allowfullscreen
+                                ></iframe>
+                            </div>
+                        </div>
                         <!-- Charts Section -->
                         <div class="charts-row">
                             <div class="chart-container">
@@ -799,7 +858,7 @@
                         <!-- Portfolio Assets Section -->
                         <div class="table-container">
                             <div class="table-header">
-                                <div class="table-title">Resumen del Portafolio</div>
+                                <div class="table-title">Portfolio summary</div>
 
                                 <div class="portfolio-actions">
                                     <button id="downloadSummaryBtn" class="btn btn-primary">
@@ -813,12 +872,12 @@
                                 <thead>
                                 <tr>
                                     <th>Ticker</th>
-                                    <th>Empresa</th>
-                                    <th>Acciones</th>
-                                    <th>Costo Promedio</th>
-                                    <th>Precio Actual</th>
-                                    <th>Valor de Mercado</th>
-                                    <th>Gan/Perdida</th>
+                                    <th>Enterprise</th>
+                                    <th>Shares</th>
+                                    <th>Mean cost</th>
+                                    <th>Actual price</th>
+                                    <th>Market value</th>
+                                    <th>Profit/loss</th>
                                     <th>%</th>
                                 </tr>
                                 </thead>
@@ -953,6 +1012,12 @@
             }
         });
 
+        
+        document.getElementById('looker-fullscreen')?.addEventListener('click', () => {
+            const iframe = document.getElementById('looker-iframe');
+            if (iframe.requestFullscreen) iframe.requestFullscreen();
+            else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+        });
 
         // Initialize the application when the page loads
         window.addEventListener('DOMContentLoaded', function() {

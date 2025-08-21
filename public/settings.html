@@ -6,53 +6,6 @@
     <title>COCO - Settings</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos completos del archivo original */
-        /* ... (copiar todo el bloque de estilos del archivo original aquí) ... */
-    </style>
-</head>
-<body>
-    <div class="app-container">
-        <div class="app-main">
-            <div class="main-content">
-                <!-- Header con botón de regreso -->
-                <div class="header">
-                    <div>
-                        <button class="btn" onclick="window.location.href='main.html'">
-                            <i class="fas fa-arrow-left"></i>
-                            Regresar al Dashboard
-                        </button>
-                    </div>
-                    <div class="current-date" id="current-date"></div>
-                </div>
-                
-                <!-- Contenido de Settings -->
-                <div class="page-content active">
-                    <div class="dashboard-header">
-                        <div>
-                            <h1>Configuración</h1>
-                            <p>Configura las preferencias de tu cuenta</p>
-                        </div>
-                    </div>
-                    <div class="placeholder-content">
-                        <p>Las opciones de configuración se mostrarán aquí...</p>
-                    </div>
-                </div>
-                
-                <div class="app-footer">
-                    <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
-                    <p>© 2025 Todos los derechos reservados</p>
-                </div>
-            </div>
-        </div>
-    </div>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COCO - Settings</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
         :root {
             --primary: #2D3748;
             --secondary: #4A5568;
@@ -369,7 +322,7 @@
                                         <option value="en">English</option>
                                     </select>
                                 </div>
-                                <button class="save-btn">Guardar cambios</button>
+                                <button class="save-btn" id="save-profile-btn">Guardar cambios</button>
                             </div>
                             
                             <!-- Sección de Seguridad -->
@@ -394,7 +347,7 @@
                                         <option value="on">Activada</option>
                                     </select>
                                 </div>
-                                <button class="save-btn">Actualizar seguridad</button>
+                                <button class="save-btn" id="save-security-btn">Actualizar seguridad</button>
                             </div>
                             
                             <!-- Otras secciones... -->
@@ -403,14 +356,18 @@
                                 <p>Personaliza cómo recibes las notificaciones.</p>
                             </div>
                             
-                            <div class="settings-section" id="privacy-section">
-                                <h2><i class="fas fa-lock"></i> Configuración de privacidad</h2>
-                                <p>Controla tu información personal y privacidad.</p>
-                            </div>
-                            
                             <div class="settings-section" id="preferences-section">
                                 <h2><i class="fas fa-cog"></i> Preferencias de la aplicación</h2>
-                                <p>Personaliza tu experiencia en COCO.</p>
+
+                                <hr style="margin:20px 0; border:0; border-top:1px solid var(--border);" />
+
+                                <div style="background:#fff5f5; border:1px solid #fecaca; padding:16px; border-radius:12px;">
+                                    <h3 style="color:#b91c1c; margin-bottom:8px;">Zona peligrosa</h3>
+                                    <p style="color:#7f1d1d; margin-bottom:12px;">
+                                    Eliminar tu cuenta es irreversible. Se borrarán tus datos y transacciones asociadas.
+                                    </p>
+                                    <button id="delete-account-btn" class="save-btn" style="background:#dc2626">Eliminar mi cuenta</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -458,18 +415,6 @@
             setupSettingsNavigation();
         });
     </script>
-</body>
-</html>
-    <script>
-        // Función para fecha actual
-        function setCurrentDate() {
-            const now = new Date();
-            document.getElementById('current-date').textContent = now.toLocaleDateString('es-MX', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-            });
-        }
-
-        window.addEventListener('DOMContentLoaded', setCurrentDate);
-    </script>
+    <script src="app-settings.js"></script>
 </body>
 </html>
