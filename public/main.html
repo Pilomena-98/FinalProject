@@ -731,10 +731,6 @@
             <div class="main-content">
                 <!-- Header -->
                 <div class="header">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search assets, transactions...">
-                    </div>
                     <div class="current-date" id="current-date">Loading date...</div>
                     <div class="action-buttons">
                         <button class="btn btn-primary" id="add-asset-btn">
@@ -752,16 +748,7 @@
                                 <h1>Portfolio Management</h1>
                                 <p>Manage your financial assets and investments</p>
                             </div>
-                            <div class="portfolio-actions">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-file-export"></i>
-                                    Export
-                                </button>
-                                <button class="btn" style="background: #E2E8F0;">
-                                    <i class="fas fa-sync-alt"></i>
-                                    Refresh
-                                </button>
-                            </div>
+                           
                         </div>
                         
                         <!-- Cards Grid -->
@@ -774,45 +761,8 @@
                                     </div>
                                 </div>
                                 <div id="stockValue" class="card-value">$0.00</div>
-                                <div class="card-footer">
-                                    <div class="trend up">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>1.98% today</span>
-                                    </div>
-                                    <div>+$2,500.00</div>
-                                </div>
                             </div>
                             
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">Annual Return</div>
-                                    <div class="card-icon icon-orange">
-                                        <i class="fas fa-percentage"></i>
-                                    </div>
-                                </div>
-                                <div class="card-value" id="annual-return">12.8%</div>
-                                <div class="card-footer">
-                                    <div class="trend up">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>2.4% vs last year</span>
-                                    </div>
-                                    <div>Target: 15%</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">Total Assets</div>
-                                    <div class="card-icon icon-green">
-                                        <i class="fas fa-coins"></i>
-                                    </div>
-                                </div>
-                                <div class="card-value" id="total-assets">8</div>
-                                <div class="card-footer">
-                                    <div>Diversification</div>
-                                    <div>4 categories</div>
-                                </div>
-                            </div>
                             
                             <div class="card">
                                 <div class="card-header">
@@ -822,10 +772,6 @@
                                     </div>
                                 </div>
                                 <div class="card-value" id="profit-loss">0</div>
-                                <div class="card-footer">
-                                    <div>Since inception</div>
-                                    <div>+9.7%</div>
-                                </div>
                             </div>
                         </div>
                         
@@ -854,7 +800,14 @@
                         <div class="table-container">
                             <div class="table-header">
                                 <div class="table-title">Resumen del Portafolio</div>
-                                <button id="downloadSummaryBtn" class="view-all">Descargar CSV</button>
+
+                                <div class="portfolio-actions">
+                                    <button id="downloadSummaryBtn" class="btn btn-primary">
+                                        <i class="fas fa-file-export"></i>
+                                        Export
+                                    </button>
+                                </div>
+
                             </div>
                             <table class="data-table" id="portfolioSummaryTable">
                                 <thead>
