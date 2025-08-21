@@ -1,602 +1,355 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COCO - Retirement Planner</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --primary: #2D3748;
-            --secondary: #4A5568;
-            --accent: #e37dec;
-            --light-bg: #f0e7f1;
-            --card-bg: #FFFFFF;
-            --success: #38A169;
-            --warning: #DD6B20;
-            --danger: #E53E3E;
-            --border: #E2E8F0;
-            --text-light: #718096;
-            --text-dark: #1A202C;
-            --pastel-blue: #BEE3F8;
-            --pastel-green: #C6F6D5;
-            --pastel-yellow: #FEFCBF;
-            --purple-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .app-container {
-            width: 100%;
-            max-width: 1200px;
-            height: 95vh;
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: var(--card-bg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .current-date {
-            font-weight: 500;
-            color: var(--secondary);
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: var(--purple-gradient);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-        
-        /* Page Content */
-        .page-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .dashboard-header {
-            margin-bottom: 25px;
-        }
-        
-        .dashboard-header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-        
-        .dashboard-header p {
-            color: var(--text-light);
-        }
-        
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.08);
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .icon-blue {
-            background: var(--pastel-blue);
-            color: #3182CE;
-        }
-        
-        .icon-green {
-            background: var(--pastel-green);
-            color: var(--success);
-        }
-        
-        .icon-orange {
-            background: #FEEBC8;
-            color: var(--warning);
-        }
-        
-        .card-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-light);
-            font-size: 14px;
-        }
-        
-        .trend {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .trend.up {
-            color: var(--success);
-        }
-        
-        .trend.down {
-            color: var(--danger);
-        }
-        
-        /* Charts Section */
-        .charts-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .chart-container {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            border: 1px solid var(--border);
-        }
-        
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .chart-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .chart-actions button {
-            background: var(--light-bg);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text-light);
-            transition: all 0.3s;
-        }
-        
-        .chart-actions button:hover {
-            background: var(--border);
-        }
-        
-        .chart-wrapper {
-            height: 300px;
-            position: relative;
-        }
-        
-        /* Footer */
-        .app-footer {
-            text-align: center;
-            padding: 15px;
-            color: var(--text-light);
-            font-size: 14px;
-            border-top: 1px solid var(--border);
-            background: var(--card-bg);
-        }
-        
-        /* Retirement Planner Styles */
-        .retirement-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        .form-group input {
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        .form-group input:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-        
-        .calculate-btn {
-            background: var(--purple-gradient);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            align-self: flex-end;
-        }
-        
-        .calculate-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-        
-        .results-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .result-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-        }
-        
-        .result-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .app-container {
-                height: auto;
-                border-radius: 0;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .retirement-form {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COCO · PPR Simulator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --primary:#2D3748;--secondary:#4A5568;--accent:#8E2DE2;--light-bg:#f0e7f1;--card-bg:#fff;
+      --success:#38A169;--warning:#DD6B20;--danger:#E53E3E;--border:#E2E8F0;--text:#1A202C;--muted:#718096;
+      --gradient:linear-gradient(135deg,#8E2DE2,#4A00E0)
+    }
+    *{box-sizing:border-box}body{margin:0;background:var(--light-bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+    .app{max-width:1200px;margin:24px auto;padding:16px}
+    .header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .date{color:var(--muted)}
+    .btn{display:inline-flex;gap:8px;align-items:center;border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;transition:.2s}
+    .btn-primary{background:var(--gradient);color:#fff}
+    .btn-primary:hover{opacity:.95;transform:translateY(-1px)}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+    .card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:18px}
+    .card h3{margin:0 0 6px 0;color:var(--primary)}
+    .muted{color:var(--muted)}
+    .value{font-weight:800;font-size:26px;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-title{font-size:22px;margin:6px 0 12px;color:var(--primary)}
+
+    /* Form */
+    .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    label{font-weight:600;color:var(--secondary);margin-bottom:6px;display:block}
+    input,select{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:10px;font-size:15px}
+    input:focus,select:focus{outline:none;border-color:#b78cf0;box-shadow:0 0 0 4px rgba(142,45,226,.08)}
+    .inline{display:flex;gap:10px;align-items:center}
+    .hint{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+
+    /* Table */
+    table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    thead th{font-size:12px;color:var(--muted);text-align:left;padding:6px 10px}
+    tbody tr{background:#fff;border:1px solid var(--border)}
+    tbody td{padding:10px}
+    tbody tr{border-radius:10px}
+
+    .pill{padding:4px 10px;border-radius:999px;background:#f2ecff;font-weight:700;font-size:12px;color:#5a2fd7}
+    .flex{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .chart-wrap{height:360px}
+    .divider{height:1px;background:var(--border);margin:12px 0}
+  </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="main-content">
-            <!-- Header -->
-            <div class="header">
-                <div>
-                    <button class="btn btn-primary" onclick="window.location.href='main.html'">
-                        <i class="fas fa-arrow-left"></i>
-                        Back to Dashboard
-                    </button>
-                </div>
-                <div class="current-date" id="current-date"></div>
-            </div>
-            
-            <!-- Retirement Planner Content -->
-            <div class="page-content">
-                <div class="dashboard">
-                    <div class="dashboard-header">
-                        <h1>Retirement Planner</h1>
-                        <p>Plan your retirement with smart tax strategies</p>
-                    </div>
-                    
-                    <form id="retirement-form" class="retirement-form">
-                        <div class="form-group">
-                            <label for="current-age">Current Age</label>
-                            <input type="number" id="current-age" min="18" max="64" value="35">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="annual-salary">Annual Salary (MXN)</label>
-                            <input type="number" id="annual-salary" min="10000" value="78000">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="monthly-contribution">Monthly Contribution (MXN)</label>
-                            <input type="number" id="monthly-contribution" min="100" value="1200">
-                        </div>
-                        
-                        <button type="button" class="calculate-btn" id="calculate-btn">
-                            <i class="fas fa-calculator"></i> Calculate Projection
-                        </button>
-                    </form>
-                    
-                    <div class="cards-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Current Status</div>
-                                <div class="card-icon icon-blue">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                            </div>
-                            <div class="card-value">$48,500</div>
-                            <div class="card-footer">
-                                <div>Goal: $500,000</div>
-                                <div id="years-to-retirement">Years to Retirement: 30</div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Tax Benefits</div>
-                                <div class="card-icon icon-green">
-                                    <i class="fas fa-percent"></i>
-                                </div>
-                            </div>
-                            <div class="card-value" id="tax-benefit">$480/year</div>
-                            <div class="card-footer">
-                                <div>Annual Deduction: $2,400</div>
-                                <div>Tax Savings: 20%</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <div class="chart-header">
-                            <div class="chart-title">Retirement Projection</div>
-                            <div class="chart-actions">
-                                <button>5 years</button>
-                                <button>10 years</button>
-                                <button class="active">Age 65</button>
-                            </div>
-                        </div>
-                        <div class="chart-wrapper">
-                            <canvas id="retirementChart"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="results-container">
-                        <div class="result-card">
-                            <h3><i class="fas fa-piggy-bank"></i> Projected Savings at 65</h3>
-                            <div class="result-value" id="projected-savings">$500,000</div>
-                            <p>Based on an annual return of 6.5% and monthly contributions</p>
-                        </div>
-                        
-                        <div class="result-card">
-                            <h3><i class="fas fa-file-invoice-dollar"></i> Tax Deduction</h3>
-                            <div class="result-value" id="tax-deduction">$2,400/year</div>
-                            <p>Deductible up to 10% of your annual salary or 5 UMA (~$15,000)</p>
-                        </div>
-                        
-                        <div class="result-card">
-                            <h3><i class="fas fa-hand-holding-usd"></i> Annual Contribution</h3>
-                            <div class="result-value" id="annual-contribution">$14,400</div>
-                            <p>Monthly: $1,200</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="app-footer">
-                <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
-                <p>© 2025 All rights reserved</p>
-            </div>
-        </div>
+  <div class="app">
+    <div class="header">
+      <button class="btn btn-primary" onclick="window.location.href='main.html'"><i class="fa-solid fa-arrow-left"></i> Dashboard</button>
+      <div class="date" id="today"></div>
     </div>
-    
 
-    <script>
-        // Inicializar gráfico
-        function initChart() {
-            const canvas = document.getElementById('retirementChart');
-            
-            // Verificar que el elemento canvas existe
-            if (!canvas) {
-                console.error('Canvas element not found');
-                return;
-            }
-            
-            const ctx = canvas.getContext('2d');
-            window.retirementChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Actual', '5 años', '10 años', '15 años', 'Jubilación'],
-                    datasets: [{
-                        label: 'Ahorros acumulados',
-                        data: [48500, 125000, 250000, 375000, 500000],
-                        backgroundColor: '#8E2DE2',
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return '$' + context.raw.toLocaleString();
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { 
-                            beginAtZero: true,
-                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
-                            ticks: { 
-                                callback: function(value) { 
-                                    return '$' + value.toLocaleString(); 
-                                } 
-                            }
-                        },
-                        x: { 
-                            grid: { display: false }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Calcular proyección
-        function calculateProjection() {
-            const currentAge = parseInt(document.getElementById('current-age').value) || 35;
-            const annualSalary = parseFloat(document.getElementById('annual-salary').value) || 78000;
-            const monthlyContribution = parseFloat(document.getElementById('monthly-contribution').value) || 1200;
-            
-            // Años hasta la jubilación
-            const yearsToRetirement = 65 - currentAge;
-            document.getElementById('years-to-retirement').textContent = `Años hasta la jubilación: ${yearsToRetirement}`;
-            
-            // Contribución anual
-            const annualContribution = monthlyContribution * 12;
-            document.getElementById('annual-contribution').textContent = `$${annualContribution.toLocaleString('es-MX')}`;
-            
-            // Beneficio fiscal (supuesto: 20% de deducción)
-            const taxDeduction = Math.min(annualContribution, annualSalary * 0.1) * 0.2;
-            document.getElementById('tax-benefit').textContent = `$${taxDeduction.toLocaleString('es-MX')}/año`;
-            document.getElementById('tax-deduction').textContent = `$${Math.min(annualContribution, annualSalary * 0.1).toLocaleString('es-MX')}/año`;
-            
-            // Proyección de ahorros
-            const currentSavings = 48500;
-            const annualReturn = 0.065; // 6.5%
-            const projection = [currentSavings];
-            
-            let accumulated = currentSavings;
-            for (let year = 1; year <= yearsToRetirement; year++) {
-                accumulated = (accumulated + annualContribution) * (1 + annualReturn);
-                if (year === 5) projection.push(accumulated);
-                if (year === 10) projection.push(accumulated);
-                if (year === 15) projection.push(accumulated);
-            }
-            projection.push(accumulated);
-            
-            // Actualizar gráfico
-            if (window.retirementChart) {
-                window.retirementChart.data.datasets[0].data = projection.map(val => Math.round(val));
-                window.retirementChart.update();
-            }
-            
-            // Actualizar ahorro proyectado
-            document.getElementById('projected-savings').textContent = `$${Math.round(accumulated).toLocaleString('es-MX')}`;
-        }
-        
-        // Fecha actual
-        function setCurrentDate() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('es-MX', options);
-        }
-        
-        // Inicializar - asegurar que el DOM está cargado
-        document.addEventListener('DOMContentLoaded', () => {
-            setCurrentDate();
-            initChart();
-            calculateProjection();
-            
-            // Event listeners
-            document.getElementById('calculate-btn').addEventListener('click', calculateProjection);
-            document.getElementById('current-age').addEventListener('change', calculateProjection);
-            document.getElementById('annual-salary').addEventListener('change', calculateProjection);
-            document.getElementById('monthly-contribution').addEventListener('change', calculateProjection);
+    <div class="card">
+      <div class="flex">
+        <h2 class="section-title">Retirement Planner (PPR) — Simulator</h2>
+        <span class="pill">MX · deduction: 10% income o 5 UMA</span>
+      </div>
+      <p class="muted" style="margin:6px 0 16px">Adjust the parameters and estimate your retirement balance in nominal pesos and real pesos (adjusted for inflation), along with the estimated tax benefit and a sustainable monthly withdrawal (4% rule)</p>
+
+      <form id="form" class="form">
+        <div>
+          <label>Current Age</label>
+          <input id="age" type="number" min="18" max="64" value="35" />
+        </div>
+        <div>
+          <label>Retirement Age</label>
+          <input id="retAge" type="number" min="55" max="75" value="65" />
+        </div>
+        <div>
+          <label>Annual Income (MXN)</label>
+          <input id="salary" type="number" min="10000" step="1000" value="300000" />
+          <div class="hint">Estimated gross annual</div>
+        </div>
+        <div>
+          <label>Monthly contribution PPR (MXN)</label>
+          <input id="monthly" type="number" min="100" step="100" value="2500" />
+        </div>
+        <div>
+          <label>ISR marginal rate (%)</label>
+          <input id="taxRate" type="number" min="0" max="45" step="0.5" value="20" />
+          <div class="hint">To estimate tax savings</div>
+        </div>
+        <div>
+          <label>Portfolio (nominal annual yieldl)</label>
+          <select id="portfolio">
+            <option value="0.04">Conservative (4%)</option>
+            <option value="0.065" selected>Moderate (6.5%)</option>
+            <option value="0.08">Aggressive (8%)</option>
+          </select>
+        </div>
+        <div>
+          <label>Annual Inflation (%)</label>
+          <input id="inflation" type="number" min="0" max="15" step="0.1" value="4" />
+        </div>
+        <div>
+          <label>Annual salary growth (%)</label>
+          <input id="salaryGrowth" type="number" min="0" max="15" step="0.1" value="3" />
+          <div class="inline" style="margin-top:6px">
+            <input id="growContrib" type="checkbox" checked />
+            <label for="growContrib" style="margin:0">Contribution grows with salary</label>
+          </div>
+        </div>
+        <div>
+          <label>Daily UMA (MXN)</label>
+          <input id="umaDaily" type="number" min="50" step="0.01" value="115.37" />
+          <div class="hint">Adjustable every year</div>
+        </div>
+        <div>
+          <label>PPR current balance (MXN)</label>
+          <input id="current" type="number" min="0" step="100" value="48500" />
+        </div>
+      </form>
+      <div class="actions" style="margin-top:12px">
+        <button class="btn btn-primary" id="run"><i class="fa-solid fa-calculator"></i> Calculate</button>
+        <button class="btn" id="export"><i class="fa-solid fa-file-arrow-down"></i> Export CSV</button>
+      </div>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:16px">
+      <div class="card">
+        <h3>Projected withdrawal balance (Nominal)</h3>
+        <div class="value" id="projNominal">$0</div>
+        <div class="muted">Before inflation</div>
+      </div>
+      <div class="card">
+        <h3>Projected withdrawal balance (Real)</h3>
+        <div class="value" id="projReal">$0</div>
+        <div class="muted">Today's pesos</div>
+      </div>
+      <div class="card">
+        <h3>Monthly income (4% rule)</h3>
+        <div class="value" id="safeIncome">$0</div>
+        <div class="muted">Today's pesos</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="flex">
+        <h3 class="section-title">Estimated tax benefit</h3>
+        <span class="pill" id="deductionCap">Limit: —</span>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+        <div>
+          <div class="muted">Annual deduction (year 1)</div>
+          <div class="value" id="deductY1">$0</div>
+        </div>
+        <div>
+          <div class="muted">Annual tax savings (year 1)</div>
+          <div class="value" id="taxSaveY1">$0</div>
+        </div>
+        <div>
+          <div class="muted">Tax savings upon retirement</div>
+          <div class="value" id="taxSaveTotal">$0</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="chart-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="flex"><h3 class="section-title">Year-by-year projection</h3><span class="muted" id="yearsLabel"></span></div>
+      <div class="divider"></div>
+      <div style="overflow:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Age</th>
+              <th>Annual income</th>
+              <th>Annual contribution</th>
+              <th>Deduction used</th>
+              <th>Tax savings</th>
+              <th>Year-end balance (nominal)</th>
+              <th>Year-end balance (real)</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id)=>document.getElementById(id);
+    const fmt = (n)=>n.toLocaleString('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0});
+
+    let chart;
+
+    function today(){
+      const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+      $('today').textContent = new Date().toLocaleDateString('es-MX',opts);
+    }
+
+    function realRate(nominal, inflation){
+      return (1+nominal)/(1+inflation) - 1;
+    }
+
+    function run(){
+      const age = +$('age').value; const retAge = +$('retAge').value;
+      const years = Math.max(0, retAge - age);
+      const salary0 = +$('salary').value;
+      const monthly = +$('monthly').value;
+      const annualContrib0 = monthly*12;
+      const taxRate = (+$('taxRate').value)/100;
+      const rNom = +$('portfolio').value;
+      const infl = (+$('inflation').value)/100;
+      const gSalary = (+$('salaryGrowth').value)/100;
+      const growContrib = $('growContrib').checked;
+      const umaDaily = +$('umaDaily').value;
+      const umaYear = umaDaily*365;
+      const current = +$('current').value;
+
+      $('yearsLabel').textContent = years+" años";
+      $('deductionCap').textContent = `Límite anual: ${fmt(Math.min(salary0*0.10, umaYear*5))}`;
+
+      let salary = salary0;
+      let annualContrib = annualContrib0;
+      let accNom = current; // nominal
+      let accReal = current; // real (se capitaliza a tasa real)
+      const rReal = realRate(rNom, infl);
+
+      const labels = ["Hoy"];
+      const seriesNom = [accNom];
+      const seriesReal = [accReal];
+      const rows = [];
+      let totalTaxSaved = 0;
+
+      for(let y=1; y<=years; y++){
+        // Topes y deducción
+        const cap = Math.min(salary*0.10, umaYear*5, annualContrib);
+        const taxSaved = cap * taxRate;
+        totalTaxSaved += taxSaved;
+
+        // Fin de año (nominal)
+        accNom = (accNom + annualContrib) * (1 + rNom);
+        // Fin de año (real, usando tasa real y montos en poder adquisitivo de hoy)
+        accReal = (accReal + annualContrib/(1+infl)**y) * (1 + rReal); // aprox: aportación se descuenta a valor presente
+
+        // guardar para tabla
+        rows.push({
+          year:y,
+          age:age+y,
+          salary,
+          contrib:annualContrib,
+          capUsed:cap,
+          taxSaved,
+          endNom:accNom,
+          endReal:accReal
         });
-    </script>
+
+        labels.push(`Año ${y}`);
+        seriesNom.push(accNom);
+        seriesReal.push(accReal);
+
+        // crecer salario y aportación para el próximo año
+        salary = salary * (1 + gSalary);
+        if(growContrib){
+          annualContrib = annualContrib * (1 + gSalary);
+        }
+      }
+
+      // UI Cards
+      $('projNominal').textContent = fmt(Math.round(accNom));
+      $('projReal').textContent = fmt(Math.round(accReal));
+      const safe = (accReal * 0.04)/12; // regla del 4%, en pesos reales
+      $('safeIncome').textContent = fmt(Math.round(safe));
+
+      // Beneficio fiscal
+      if(rows.length){
+        $('deductY1').textContent = fmt(Math.round(rows[0].capUsed));
+        $('taxSaveY1').textContent = fmt(Math.round(rows[0].taxSaved));
+      } else {
+        $('deductY1').textContent = fmt(0);
+        $('taxSaveY1').textContent = fmt(0);
+      }
+      $('taxSaveTotal').textContent = fmt(Math.round(totalTaxSaved));
+
+      // Tabla
+      const tbody = $('rows');
+      tbody.innerHTML = rows.map(r=>`
+        <tr>
+          <td>${r.year}</td>
+          <td>${r.age}</td>
+          <td>${fmt(r.salary)}</td>
+          <td>${fmt(r.contrib)}</td>
+          <td>${fmt(r.capUsed)}</td>
+          <td>${fmt(r.taxSaved)}</td>
+          <td>${fmt(r.endNom)}</td>
+          <td>${fmt(r.endReal)}</td>
+        </tr>
+      `).join('');
+
+      // Chart
+      const ctx = $('chart').getContext('2d');
+      if(chart) chart.destroy();
+      chart = new Chart(ctx,{
+        type:'line',
+        data:{
+          labels,
+          datasets:[
+            {label:'Saldo nominal', data:seriesNom, tension:.2, borderWidth:3, fill:false},
+            {label:'Saldo real (pesos de hoy)', data:seriesReal, tension:.2, borderWidth:3, borderDash:[6,6], fill:false}
+          ]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          interaction:{mode:'index', intersect:false},
+          plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:(ctx)=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`}}},
+          scales:{y:{ticks:{callback:(v)=>fmt(v)}}, x:{ticks:{autoSkip:true,maxRotation:0}}}
+        }
+      });
+
+      // Guardar último resultado para exportación
+      window.__ppr_rows = rows;
+    }
+
+    function exportCSV(){
+      const rows = window.__ppr_rows||[];
+      if(!rows.length){ alert('Primero ejecuta el cálculo.'); return; }
+      const header = ['Año','Edad','Ingreso anual','Aportación anual','Deducción usada','Ahorro fiscal','Saldo fin (nominal)','Saldo fin (real)'];
+      const csv = [header.join(',')]
+        .concat(rows.map(r=>[
+          r.year,
+          r.age,
+          Math.round(r.salary),
+          Math.round(r.contrib),
+          Math.round(r.capUsed),
+          Math.round(r.taxSaved),
+          Math.round(r.endNom),
+          Math.round(r.endReal)
+        ].join(',')))
+        .join('\n');
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'proyeccion_ppr.csv'; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // events
+    $('run').addEventListener('click', run);
+    $('export').addEventListener('click', exportCSV);
+    today();
+    run(); // primera corrida
+  </script>
 </body>
 </html>
