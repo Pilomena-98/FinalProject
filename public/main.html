@@ -842,29 +842,35 @@
                             
                             <div class="chart-container">
                                 <div class="chart-header">
-                                    <div class="chart-title">Asset Allocation</div>
-                                    <div class="chart-actions">
-                                        <button><i class="fas fa-sync-alt"></i></button>
-                                    </div>
+                                    <div class="chart-title">Current shares distribution</div>
                                 </div>
                                 <div class="chart-wrapper">
-                                    <canvas id="allocationChart"></canvas>
+                                    <canvas id="sharesPieChart"></canvas>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Portfolio Assets Section -->
-                        <div class="tables-row">
-                            <div class="table-container">
-                                <div class="table-header">
-                                    <div class="table-title">Portfolio Assets</div>
-                                    <a href="#" class="view-all">View All</a>
-                                </div>
-                                
-                                <div id="portfolio-items">
-                                    <!-- Portfolio items will be loaded dynamically -->
-                                </div>
+                        <div class="table-container">
+                            <div class="table-header">
+                                <div class="table-title">Resumen del Portafolio</div>
+                                <button id="downloadSummaryBtn" class="view-all">Descargar CSV</button>
                             </div>
+                            <table class="data-table" id="portfolioSummaryTable">
+                                <thead>
+                                <tr>
+                                    <th>Ticker</th>
+                                    <th>Empresa</th>
+                                    <th>Acciones</th>
+                                    <th>Costo Promedio</th>
+                                    <th>Precio Actual</th>
+                                    <th>Valor de Mercado</th>
+                                    <th>Gan/Perdida</th>
+                                    <th>%</th>
+                                </tr>
+                                </thead>
+                                <tbody><!-- Se llena con JS --></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

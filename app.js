@@ -41,24 +41,24 @@ app.post('/api/login', async (req, res) => {
         user: user,
         isAdmin: isAdmin
       });
-    }
+    }else {
 
-    if (!user.passwords.startsWith('$2b$')) {
-    // contraseña vieja sin hash
-    if (password !== user.passwords) {
-      return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
-    }
-    // re-hash y actualiza en DB
-    const newHash = await bcrypt.hash(password, 10);
-    await db.query('UPDATE user SET passwords=? WHERE user_Id=?', [newHash, user.user_Id]);
-    } else {
-    const ok = await bcrypt.compare(password, user.passwords);
-    if (!ok) return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
-    }
+      if (!user.passwords.startsWith('$2b$')) {
+      // contraseña vieja sin hash
+      if (password !== user.passwords) {
+        return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+      }
+      // re-hash y actualiza en DB
+      const newHash = await bcrypt.hash(password, 10);
+      await db.query('UPDATE user SET passwords=? WHERE user_Id=?', [newHash, user.user_Id]);
+      } else {
+      const ok = await bcrypt.compare(password, user.passwords);
+      if (!ok) return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+      }
 
-    delete user.passwords;
-    res.json({ success: true, user });
-
+      delete user.passwords;
+      res.json({ success: true, user });
+    }
   } catch (err) {
     console.error('Database error:', err);
     res.status(500).json({ success: false, message: 'Database error' });
@@ -146,6 +146,55 @@ app.get('/api/portfolio-history/:userId', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'No se pudo obtener el historial' });
+  }
+});
+
+// 🔹 Acciones actuales del usuario
+app.get('/api/current-shares/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [resultSets] = await db.query('CALL get_current_shares(?);', [userId]);
+    const rows = Array.isArray(resultSets) ? resultSets[0] : resultSets;
+
+    const data = rows.map(r => ({
+      ticker: r.ticker,
+      current_shares: Number(r.current_shares) || 0
+    }));
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'No se pudo obtener acciones actuales' });
+  }
+});
+
+// 🔹 Resumen del portafolio del usuario
+app.get('/api/portfolio-summary/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [resultSets] = await db.query('CALL get_portafolio_summary(?);', [userId]);
+    const rows = Array.isArray(resultSets) ? resultSets[0] : resultSets;
+
+    // Normalizamos claves y nos aseguramos de que los numéricos sean Number
+    const data = rows.map(r => ({
+      ticker: r.Ticker,
+      enterprise: r.Enterprise,
+      currentShares: Number(r['Current Shares']) || 0,
+      meanCost: Number(r['Mean Cost']) || 0,
+      currentPrice: Number(r['Current Price']) || 0,
+      marketValue: Number(r['Market Value']) || 0,
+      profitLoss: Number(r['Profit Loss']) || 0,
+      profitLossPct: Number(r['% Profit Loss']) || 0
+    }));
+
+    return res.json({ rows: data });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'No se pudo obtener el resumen' });
   }
 });
 
