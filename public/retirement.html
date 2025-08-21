@@ -218,8 +218,8 @@
       const umaYear = umaDaily*365;
       const current = +$('current').value;
 
-      $('yearsLabel').textContent = years+" años";
-      $('deductionCap').textContent = `Límite anual: ${fmt(Math.min(salary0*0.10, umaYear*5))}`;
+      $('yearsLabel').textContent = years+" years";
+      $('deductionCap').textContent = `Annual limit: ${fmt(Math.min(salary0*0.10, umaYear*5))}`;
 
       let salary = salary0;
       let annualContrib = annualContrib0;
@@ -227,7 +227,7 @@
       let accReal = current; // real (se capitaliza a tasa real)
       const rReal = realRate(rNom, infl);
 
-      const labels = ["Hoy"];
+      const labels = ["Today"];
       const seriesNom = [accNom];
       const seriesReal = [accReal];
       const rows = [];
@@ -256,7 +256,7 @@
           endReal:accReal
         });
 
-        labels.push(`Año ${y}`);
+        labels.push(`Year ${y}`);
         seriesNom.push(accNom);
         seriesReal.push(accReal);
 
@@ -306,8 +306,8 @@
         data:{
           labels,
           datasets:[
-            {label:'Saldo nominal', data:seriesNom, tension:.2, borderWidth:3, fill:false},
-            {label:'Saldo real (pesos de hoy)', data:seriesReal, tension:.2, borderWidth:3, borderDash:[6,6], fill:false}
+            {label:'Nominal balance', data:seriesNom, tension:.2, borderWidth:3, fill:false},
+            {label:'Real balance (Today´s pesos)', data:seriesReal, tension:.2, borderWidth:3, borderDash:[6,6], fill:false}
           ]
         },
         options:{
@@ -324,8 +324,8 @@
 
     function exportCSV(){
       const rows = window.__ppr_rows||[];
-      if(!rows.length){ alert('Primero ejecuta el cálculo.'); return; }
-      const header = ['Año','Edad','Ingreso anual','Aportación anual','Deducción usada','Ahorro fiscal','Saldo fin (nominal)','Saldo fin (real)'];
+      if(!rows.length){ alert('First run the calculation'); return; }
+      const header = ['Year','Age','Annual income','Annual contribution','Used deduction','Tax savings','Final balance (nominal)','Final balance (real)'];
       const csv = [header.join(',')]
         .concat(rows.map(r=>[
           r.year,
