@@ -112,11 +112,16 @@ app.get('/api/portfolio/:userId', async (req, res) => {
       const total = rows?.[0]?.portfolio_total ?? 0;
 
       const [gainRows] = await db.query(`
-        SELECT get_portafolio_profit(?) AS "Portfolio_Profit";
+        SELECT get_portafolio_future_profit(?) AS "Portfolio_Profit";
       `, [userId]);
       const gain = gainRows?.[0]?.Portfolio_Profit ?? 0;
 
-      res.json({ total, gain});
+      const [gainPastRows] = await db.query(`
+        SELECT get_portafolio_past_profit(?) AS "Portfolio_P_Profit";
+      `, [userId]);
+      const gainPast = gainPastRows?.[0]?.Portfolio_P_Profit ?? 0;
+
+      res.json({ total, gain, gainPast});
     } catch (e) {
       console.error(e);
       res.status(500).json({ error: 'Error al calcular el valor del portafolio' });
@@ -181,14 +186,14 @@ app.get('/api/portfolio-summary/:userId', async (req, res) => {
 
     // Normalizamos claves y nos aseguramos de que los numéricos sean Number
     const data = rows.map(r => ({
-      ticker: r.Ticker,
       enterprise: r.Enterprise,
+      profitLoss: Number(r['Realized Profit Loss']) || 0,
       currentShares: Number(r['Current Shares']) || 0,
       meanCost: Number(r['Mean Cost']) || 0,
       currentPrice: Number(r['Current Price']) || 0,
       marketValue: Number(r['Market Value']) || 0,
-      profitLoss: Number(r['Profit Loss']) || 0,
-      profitLossPct: Number(r['% Profit Loss']) || 0
+      profitLoss: Number(r['Unrealized Profit Loss']) || 0,
+      profitLossPct: Number(r['Unrealized % Profit Loss']) || 0
     }));
 
     return res.json({ rows: data });

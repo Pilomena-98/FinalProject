@@ -7,6 +7,8 @@ async function updatePortfolio(userId) {
       document.getElementById("stockValue").textContent = formattedValue;
       const formattedGain = `$${data.gain.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
       document.getElementById("profit-loss").textContent = formattedGain;
+      const formattedPastGain = `$${data.gainPast.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+      document.getElementById("profit-p-loss").textContent = formattedPastGain;
     } catch (err) {
       console.error("❌ Error al obtener portafolio:", err);
     }
@@ -157,8 +159,8 @@ async function loadPortfolioSummary() {
       const posClass = r.profitLoss >= 0 ? 'up' : 'down'; // usa tus clases .trend.up/.trend.down si quieres
 
       tr.innerHTML = `
-        <td>${r.ticker}</td>
         <td>${r.enterprise ?? ''}</td>
+        <td>${r.profitLoss}</td>
         <td>${fmtNumber(r.currentShares)}</td>
         <td>${fmtCurrency(r.meanCost)}</td>
         <td>${fmtCurrency(r.currentPrice)}</td>

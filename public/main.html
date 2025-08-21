@@ -804,14 +804,26 @@
                             
                             <div class="card">
                                 <div class="card-header">
-                                    <div class="card-title">Profit/Loss</div>
+                                    <div class="card-title">Past profit loss</div>
                                     <div class="card-icon">
                                         <i class="fas fa-money-bill-wave"></i>
                                     </div>
                                 </div>
                                 <div class="card-value" id="profit-loss">0</div>
                             </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Realized Profit/Loss</div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                </div>
+                                <div class="card-value" id="profit-p-loss">0</div>
                         </div>
+                        </div>
+
+                        
                         
                         <div class="embed-card">
                             <div class="embed-header">
@@ -871,13 +883,13 @@
                             <table class="data-table" id="portfolioSummaryTable">
                                 <thead>
                                 <tr>
-                                    <th>Ticker</th>
                                     <th>Enterprise</th>
+                                    <th>Realized Profit Loss</th>
                                     <th>Shares</th>
                                     <th>Mean cost</th>
                                     <th>Actual price</th>
                                     <th>Market value</th>
-                                    <th>Profit/loss</th>
+                                    <th>Unrealized Profit Loss</th>
                                     <th>%</th>
                                 </tr>
                                 </thead>
