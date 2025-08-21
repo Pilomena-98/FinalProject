@@ -311,6 +311,115 @@ app.post('/api/trades', async (req, res) => {
   }
 });
 
+// obtener usuario por ID
+app.get('/api/user/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [rows] = await db.query(
+      `SELECT user_Id, name, last_Name, email, phone
+       FROM user WHERE user_Id = ? LIMIT 1`,
+      [userId]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.json({ success: true, user: rows[0] });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Error obteniendo usuario' });
+  }
+});
+
+// actualizar usuario por ID
+app.put('/api/user/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  const { name, last_Name, email, phone } = req.body;
+  if (!name || !last_Name || !email) {
+    return res.status(400).json({ error: 'name, last_Name y email son obligatorios' });
+  }
+
+  try {
+    // opcional: verificar duplicado de email en otro usuario
+    const [dups] = await db.query(
+      'SELECT user_Id FROM user WHERE email = ? AND user_Id <> ? LIMIT 1',
+      [email, userId]
+    );
+    if (dups.length) return res.status(409).json({ error: 'El email ya está en uso' });
+
+    await db.query(
+      `UPDATE user
+         SET name = ?, last_Name = ?, email = ?, phone = ?
+       WHERE user_Id = ?`,
+      [name, last_Name, email, phone || '', userId]
+    );
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'No se pudo actualizar el perfil' });
+  }
+});
+
+// PUT /api/user/:userId/password
+app.put('/api/user/:userId/password', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Faltan contraseñas' });
+  }
+
+  try {
+    const [rows] = await db.query(
+      'SELECT passwords FROM user WHERE user_Id = ? LIMIT 1',
+      [userId]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    const hash = rows[0].passwords;
+    if (!hash.startsWith('$2b$')) {
+      // contraseña vieja sin hash
+      if (currentPassword != hash) {
+        return res.status(401).json({ success: false, error: `la constraseña actual no es correcta ${currentPassword} y ${hash}` });
+      } 
+    }else { 
+      const ok = await bcrypt.compare(currentPassword, hash);
+      if (!ok) return res.status(401).json({ error: 'la constraseña actual no es correcta' });
+    }
+    // re-hash y actualizar en DB
+      const newHash = await bcrypt.hash(newPassword, 10);
+      await db.query(
+        'UPDATE user SET passwords = ? WHERE user_Id = ?',
+        [newHash, userId]
+      );
+
+      res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'No se pudo actualizar la contraseña' });
+  }
+});
+
+// Borrar cuenta de usuario
+app.delete('/api/user/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) return res.status(400).json({ error: 'userId inválido' });
+
+  try {
+    const [result] = await db.query('DELETE FROM user WHERE user_Id = ?', [userId]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    return res.json({ success: true });
+  } catch (e) {
+    console.error('Error borrando cuenta:', e);
+    return res.status(500).json({ error: 'No se pudo eliminar la cuenta' });
+  }
+})
+
 app.listen(port, () => {
   console.log(`✅ Server is running on http://localhost:${port}`);
 });
