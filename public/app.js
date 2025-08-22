@@ -165,7 +165,7 @@ async function loadPortfolioSummary() {
         <td>${fmtCurrency(r.meanCost)}</td>
         <td>${fmtCurrency(r.currentPrice)}</td>
         <td>${fmtCurrency(r.marketValue)}</td>
-        <td class="${posClass}">${fmtCurrency(r.profitLoss)}</td>
+        <td class="${posClass}">${fmtCurrency(r.uprofitLoss)}</td>
         <td class="${posClass}">${fmtPct(r.profitLossPct)}</td>
       `;
       tbody.appendChild(tr);
