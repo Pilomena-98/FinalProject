@@ -196,7 +196,7 @@
 
     function today(){
       const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
-      $('today').textContent = new Date().toLocaleDateString('es-MX',opts);
+      $('today').textContent = new Date().toLocaleDateString('en-US',opts);
     }
 
     function realRate(nominal, inflation){

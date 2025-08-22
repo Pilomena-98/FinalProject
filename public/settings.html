@@ -264,109 +264,109 @@
                     <div>
                         <button class="btn btn-primary" onclick="window.location.href='main.html'">
                             <i class="fas fa-arrow-left"></i>
-                            Regresar al Dashboard
+                            Return to Dashboard
                         </button>
                     </div>
                     <div class="current-date" id="current-date"></div>
                 </div>
                 
-                <!-- Contenido de Settings -->
+                <!-- Settings Content -->
                 <div class="page-content">
                     <div class="dashboard-header">
                         <div>
-                            <h1>Configuración</h1>
-                            <p>Administra las preferencias de tu cuenta</p>
+                            <h1>Settings</h1>
+                            <p>Manage your account preferences</p>
                         </div>
                     </div>
                     
                     <div class="settings-container">
                         <div class="settings-categories">
-                            <h3>Categorías</h3>
+                            <h3>Categories</h3>
                             <div class="category-item active" data-target="profile">
-                                <i class="fas fa-user"></i> Perfil
+                                <i class="fas fa-user"></i> Profile
                             </div>
                             <div class="category-item" data-target="security">
-                                <i class="fas fa-shield-alt"></i> Seguridad
+                                <i class="fas fa-shield-alt"></i> Security
                             </div>
                             <div class="category-item" data-target="notifications">
-                                <i class="fas fa-bell"></i> Notificaciones
+                                <i class="fas fa-bell"></i> Notifications
                             </div>
                             <div class="category-item" data-target="privacy">
-                                <i class="fas fa-lock"></i> Privacidad
+                                <i class="fas fa-lock"></i> Privacy
                             </div>
                             <div class="category-item" data-target="preferences">
-                                <i class="fas fa-cog"></i> Preferencias
+                                <i class="fas fa-cog"></i> Preferences
                             </div>
                         </div>
                         
                         <div class="settings-content">
-                            <!-- Sección de Perfil -->
+                            <!-- Profile Section -->
                             <div class="settings-section active" id="profile-section">
-                                <h2><i class="fas fa-user"></i> Perfil de Usuario</h2>
+                                <h2><i class="fas fa-user"></i> User Profile</h2>
                                 <div class="form-group">
-                                    <label for="username">Nombre de usuario</label>
+                                    <label for="username">Username</label>
                                     <input type="text" id="username" value="Diego Flores">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Correo electrónico</label>
+                                    <label for="email">Email</label>
                                     <input type="email" id="email" value="diego.flores@example.com">
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone">Teléfono</label>
+                                    <label for="phone">Phone</label>
                                     <input type="tel" id="phone" value="+52 55 1234 5678">
                                 </div>
                                 <div class="form-group">
-                                    <label for="language">Idioma preferido</label>
+                                    <label for="language">Preferred Language</label>
                                     <select id="language">
-                                        <option value="es">Español</option>
+                                        <option value="es">Spanish</option>
                                         <option value="en">English</option>
                                     </select>
                                 </div>
-                                <button class="save-btn" id="save-profile-btn">Guardar cambios</button>
+                                <button class="save-btn" id="save-profile-btn">Save Changes</button>
                             </div>
                             
-                            <!-- Sección de Seguridad -->
+                            <!-- Security Section -->
                             <div class="settings-section" id="security-section">
-                                <h2><i class="fas fa-shield-alt"></i> Seguridad de la cuenta</h2>
+                                <h2><i class="fas fa-shield-alt"></i> Account Security</h2>
                                 <div class="form-group">
-                                    <label for="current-password">Contraseña actual</label>
+                                    <label for="current-password">Current Password</label>
                                     <input type="password" id="current-password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="new-password">Nueva contraseña</label>
+                                    <label for="new-password">New Password</label>
                                     <input type="password" id="new-password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="confirm-password">Confirmar nueva contraseña</label>
+                                    <label for="confirm-password">Confirm New Password</label>
                                     <input type="password" id="confirm-password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="2fa">Autenticación de dos factores</label>
+                                    <label for="2fa">Two-Factor Authentication</label>
                                     <select id="2fa">
-                                        <option value="off">Desactivada</option>
-                                        <option value="on">Activada</option>
+                                        <option value="off">Disabled</option>
+                                        <option value="on">Enabled</option>
                                     </select>
                                 </div>
-                                <button class="save-btn" id="save-security-btn">Actualizar seguridad</button>
+                                <button class="save-btn" id="save-security-btn">Update Security</button>
                             </div>
                             
-                            <!-- Otras secciones... -->
+                            <!-- Other Sections... -->
                             <div class="settings-section" id="notifications-section">
-                                <h2><i class="fas fa-bell"></i> Configuración de notificaciones</h2>
-                                <p>Personaliza cómo recibes las notificaciones.</p>
+                                <h2><i class="fas fa-bell"></i> Notification Settings</h2>
+                                <p>Customize how you receive notifications.</p>
                             </div>
                             
                             <div class="settings-section" id="preferences-section">
-                                <h2><i class="fas fa-cog"></i> Preferencias de la aplicación</h2>
+                                <h2><i class="fas fa-cog"></i> Application Preferences</h2>
 
                                 <hr style="margin:20px 0; border:0; border-top:1px solid var(--border);" />
 
                                 <div style="background:#fff5f5; border:1px solid #fecaca; padding:16px; border-radius:12px;">
-                                    <h3 style="color:#b91c1c; margin-bottom:8px;">Zona peligrosa</h3>
+                                    <h3 style="color:#b91c1c; margin-bottom:8px;">Danger Zone</h3>
                                     <p style="color:#7f1d1d; margin-bottom:12px;">
-                                    Eliminar tu cuenta es irreversible. Se borrarán tus datos y transacciones asociadas.
+                                    Deleting your account is irreversible. Your data and associated transactions will be permanently erased.
                                     </p>
-                                    <button id="delete-account-btn" class="save-btn" style="background:#dc2626">Eliminar mi cuenta</button>
+                                    <button id="delete-account-btn" class="save-btn" style="background:#dc2626">Delete My Account</button>
                                 </div>
                             </div>
                         </div>
@@ -375,11 +375,12 @@
                 
                 <div class="app-footer">
                     <p>COCO - Consulting Opportunities & Cash Optimization | SASALELE: Secure Assets, Secure A life you Love</p>
-                    <p>© 2025 Todos los derechos reservados</p>
+                    <p>© 2025 All rights reserved</p>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script>
         // Cambiar entre secciones de configuración
@@ -406,7 +407,7 @@
         function setCurrentDate() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('es-MX', options);
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', opts);
         }
         
         // Inicializar
