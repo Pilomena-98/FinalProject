@@ -192,8 +192,8 @@ app.get('/api/portfolio-summary/:userId', async (req, res) => {
       meanCost: Number(r['Mean Cost']) || 0,
       currentPrice: Number(r['Current Price']) || 0,
       marketValue: Number(r['Market Value']) || 0,
-      profitLoss: Number(r['Unrealized Profit Loss']) || 0,
-      profitLossPct: Number(r['Unrealized % Profit Loss']) || 0
+      uprofitLoss: Number(r['Unrealized Profit Loss']) || 0,
+      profitLossPct: Number(r['% Unrealized Profit Loss']) || 0
     }));
 
     return res.json({ rows: data });
